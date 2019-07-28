@@ -102,3 +102,35 @@ console.log(nbYear(1500000, 0.25, 1000, 2000000));
 // 94
 console.log(nbYear(1000, 5, -10, 1500));
 // 10
+
+
+function accum(s) {
+    // output array
+    const outputArr = [];
+    // each letter upper case
+    // split string
+    let splitS = s.toUpperCase().split("");
+    // for length of string, add lower case to each letter
+    for (var i = 0; i < splitS.length; i++) {
+        // create lower case of the letter
+        // add lowercase to upper case i amount of times
+        let repeatLowerCase = splitS[i].toLowerCase().repeat(i);
+        let combineCaseString = splitS[i] + repeatLowerCase;
+        // push to array
+        outputArr.push(combineCaseString);
+    }
+    // join array items with -
+    return outputArr.join("-")
+}
+// test cases
+console.log(accum("ZpglnRxqenU"));
+// Z-Pp-Ggg-Llll-Nnnnn-Rrrrrr-Xxxxxxx-Qqqqqqqq-Eeeeeeeee-Nnnnnnnnnn-Uuuuuuuuuuu
+console.log(accum("NyffsGeyylB"));
+// N-Yy-Fff-Ffff-Sssss-Gggggg-Eeeeeee-Yyyyyyyy-Yyyyyyyyy-Llllllllll-Bbbbbbbbbbb
+console.log(accum("MjtkuBovqrU"));
+// M-Jj-Ttt-Kkkk-Uuuuu-Bbbbbb-Ooooooo-Vvvvvvvv-Qqqqqqqqq-Rrrrrrrrrr-Uuuuuuuuuuu
+console.log(accum("EvidjUnokmM"));
+// E-Vv-Iii-Dddd-Jjjjj-Uuuuuu-Nnnnnnn-Oooooooo-Kkkkkkkkk-Mmmmmmmmmm-Mmmmmmmmmmm
+console.log(accum("HbideVbxncC"));
+// H-Bb-Iii-Dddd-Eeeee-Vvvvvv-Bbbbbbb-Xxxxxxxx-Nnnnnnnnn-Cccccccccc-Ccccccccccc
+
