@@ -25,7 +25,7 @@ console.log(multiply(2.5, 3.4));
 // return false if array does not get you back to starting point in 10 minutes
 // return true if array does get you back to starting point in 10 minutes
 // will always provide array of direction letters
-    // 'n', 'w', 'e', 's'
+// 'n', 'w', 'e', 's'
 function isValidWalk(walk) {
     // must be 10 spaces
     if (walk.length !== 10) {
@@ -68,3 +68,37 @@ console.log(isValidWalk(['w']));
 // false
 console.log(isValidWalk(['n', 'n', 'n', 's', 'n', 's', 'n', 's', 'n', 's']));
 // false
+
+// town population
+// increase certain % each year plus additional amount
+// how many years until populations is greater or equal target
+// p0 is current population
+// percent is increased percentage each year
+// aug is additional people added to population
+// p is population target
+function nbYear(p0, percent, aug, p) {
+    // amount of years until popluation target is reached
+    years = 0;
+    // convert percent to numeric value
+    const growthPercentage = percent * 0.01;
+    // while population is less than target
+    do {
+        // growth per year
+        let yearGrowth = (p0 * growthPercentage) + aug;
+        // total per year
+        p0 += yearGrowth;
+        // add to years
+        years += 1;
+    }
+    while (p0 < p);
+    return years;
+}
+// test cases
+console.log(nbYear(1500, 5, 100, 5000));
+// 15
+console.log(nbYear(1500000, 2.5, 10000, 2000000));
+// 10
+console.log(nbYear(1500000, 0.25, 1000, 2000000));
+// 94
+console.log(nbYear(1000, 5, -10, 1500));
+// 10
