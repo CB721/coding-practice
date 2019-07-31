@@ -1,9 +1,9 @@
 // Check to see if a string has the same amount of 'x's and 'o's. The method must return a boolean and be case insensitive. The string can contain any char.
-function exAndOhs(input) {
+function XO(str) {
     const xArr = [];
     const oArr = [];
     // convert string to lower case and split
-    const lowerArr = input.toLowerCase().split("");
+    const lowerArr = str.toLowerCase().split("");
     for (var i = 0; i < lowerArr.length; i++) {
         if (lowerArr[i] == 'o') {
             oArr.push(lowerArr[i]);
@@ -17,16 +17,15 @@ function exAndOhs(input) {
     } else {
         return false
     }
-
 }
 // test cases
-console.log(exAndOhs("ooxx"));
+console.log(XO("ooxx"));
 // true
-console.log(exAndOhs("xooxx"));
+console.log(XO("xooxx"));
 // false
-console.log(exAndOhs("ooxXm"));
+console.log(XO("ooxXm"));
 // true
-console.log(exAndOhs("zpzpzpp"));
+console.log(XO("zpzpzpp"));
 // true
-console.log(exAndOhs("zzoo"));
+console.log(XO("zzoo"));
 // false
