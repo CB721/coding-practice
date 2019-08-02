@@ -26,3 +26,4 @@ console.log(isTriangle(0, 2, 2));
 console.log(isTriangle(31, 26, 6));
 // true
 // test git commit history
+// test two
