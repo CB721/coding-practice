@@ -26,4 +26,22 @@ function minMax(arr){
   console.log(minMax([-35, -25, -100]));
   // [-100, -25]
 
-  
+// Simple, given a string of words, return the length of the shortest word(s).
+// String will never be empty and you do not need to account for different data types.
+
+  function findShort(s){
+    const splitS = s.split(" ");
+    const wordLengths = [];
+    for (let i = 0; i < splitS.length; i++) {
+      wordLengths.push(splitS[i].length);
+    }
+    return Math.min(...wordLengths);
+  }
+
+  // test cases
+  console.log(findShort("hi there"));
+  // 2
+  console.log(findShort("In west Philadelphia born and raised on the playground was where I spent most of my days"));
+  // 1
+  console.log(findShort("thisisnotawordbutitcounts thisisstillnotawordbutitalsocounts"));
+  // 25
