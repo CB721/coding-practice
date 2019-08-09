@@ -42,7 +42,42 @@ console.log(rgb(255, 255, 255));
 // FFFFFF
 console.log(rgb(255, 255, 300));
 // FFFFFF
-console.log(rgb(0,0,-20));
+console.log(rgb(0, 0, -20));
 // 000000
 console.log(rgb(148, 0, 211));
 // 9400D3
+
+// Move the first letter of each word to the end of it, then add "ay" to the end of the word. Leave punctuation marks untouched.
+function pigIt(str) {
+    let punctuation = "";
+    const individualWords = str.split(" ");
+    for (let i = 0; i < individualWords.length; i++) {
+        if (individualWords[i].includes(" ")) {
+            individualWords[i].splice();
+        }
+        if (individualWords[i].includes(".") || individualWords[i].includes("!") || individualWords[i].includes("?") ||  individualWords[i].includes(",") || individualWords[i].includes("-")) {
+            punctuation = individualWords[i].slice(-1);
+            individualWords[i] = individualWords[i].slice(0, -1);
+        }
+    }
+    let firstLetter;
+    let otherLetters;
+    const strArr = [];
+    individualWords.forEach(function (word) {
+        if (word == " ") {
+            word = "";
+        }
+        firstLetter = word.slice(0, 1);
+        otherLetters = word.substr(1, Infinity);
+        strArr.push(otherLetters + firstLetter + "ay")
+    });
+    return strArr.join(" ") + punctuation;
+}
+
+// test cases
+console.log(pigIt('Pig latin is cool'));
+// igPay atinlay siay oolcay
+console.log(pigIt('This is my string'));
+// hisTay siay ymay tringsay
+console.log(pigIt('hElo0 WoRld !'));
+// Elo0hay oRldWay !
