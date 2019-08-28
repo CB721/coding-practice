@@ -46,6 +46,8 @@ console.log(rgb(0, 0, -20));
 // 000000
 console.log(rgb(148, 0, 211));
 // 9400D3
+console.log(rgb(36, 143, 186));
+// 248FBA
 
 // Move the first letter of each word to the end of it, then add "ay" to the end of the word. Leave punctuation marks untouched.
 function pigIt(str) {
