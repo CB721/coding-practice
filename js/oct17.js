@@ -107,7 +107,7 @@ presses = (phrase) => {
             letter == 8
         ) {
             totalPress += 4;
-        } 
+        }
         else if (
             letter == 7 ||
             letter == 9
@@ -126,3 +126,36 @@ console.log(presses("a0"));
 // 3
 console.log(presses("  "));
 // 2
+
+
+// return smallest positive integer greater than 0 that does not occur in the array
+solution = (A) => {
+    if (A.length <= 0) {
+        return 1;
+    }
+    const sortedNumbers = A.sort();
+    let lastNumber = 1;
+    const arrLen = sortedNumbers.length;
+    for (let i = 0; i < sortedNumbers.length; i++) {
+        if ((sortedNumbers[i] - lastNumber) > 1) {
+            return lastNumber + 1;
+        } else if (sortedNumbers[i] === sortedNumbers[arrLen - 1]) {
+            if (sortedNumbers[i] < 1) {
+                return 1;
+            } else {
+                return sortedNumbers[i] + 1;
+            }
+        } else {
+            lastNumber = sortedNumbers[i];
+        }
+    }
+}
+
+console.log(solution([1, 3, 6, 4, 1, 2]));
+// 5
+console.log(solution([1, 2, 3]));
+// 4
+console.log(solution([-1, -3]));
+// 1
+console.log(solution([]));
+// 1
