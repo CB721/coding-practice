@@ -48,3 +48,81 @@ console.log(diamond(0))
 // null
 console.log(diamond(6));
 // null
+
+
+// write a module that can calculate the amount of button presses required for any phrase. Punctuation can be ignored for this exercise. Likewise, you can assume the phone doesn't distinguish between upper/lowercase characters (but you should allow your module to accept input in either for convenience).
+
+presses = (phrase) => {
+    phraseArr = [];
+    let totalPress = 0;
+    for (let i = 0; i < phrase.length; i++) {
+        let letter = phrase[i].toLowerCase();
+        if (
+            letter === "a" ||
+            letter === "d" ||
+            letter === "g" ||
+            letter === "j" ||
+            letter === "m" ||
+            letter === "p" ||
+            letter === "t" ||
+            letter === "w" ||
+            letter === " " ||
+            letter == 1
+        ) {
+            totalPress += 1;
+        }
+        else if (
+            letter === "b" ||
+            letter === "e" ||
+            letter === "h" ||
+            letter === "k" ||
+            letter === "n" ||
+            letter === "q" ||
+            letter === "u" ||
+            letter === "x" ||
+            letter == 0
+        ) {
+            totalPress += 2;
+        }
+        else if (
+            letter === "c" ||
+            letter === "f" ||
+            letter === "i" ||
+            letter === "l" ||
+            letter === "o" ||
+            letter === "r" ||
+            letter === "v" ||
+            letter === "y"
+        ) {
+            totalPress += 3;
+        }
+        else if (
+            letter === "s" ||
+            letter === "z" ||
+            letter == 2 ||
+            letter == 3 ||
+            letter == 4 ||
+            letter == 5 ||
+            letter == 6 ||
+            letter == 8
+        ) {
+            totalPress += 4;
+        } 
+        else if (
+            letter == 7 ||
+            letter == 9
+        ) {
+            totalPress += 5;
+        }
+    }
+    return totalPress;
+}
+
+console.log(presses("LOL"));
+// 9
+console.log(presses("HOW R U"));
+// 13
+console.log(presses("a0"));
+// 3
+console.log(presses("  "));
+// 2
