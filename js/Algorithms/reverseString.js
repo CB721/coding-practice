@@ -4,12 +4,18 @@
 //     return str.split('').reverse().join('');
 // }
 
+// function reverse(str) {
+//     let newStr = "";
+//     for (let i = 0; i < str.length; i++) {
+//         newStr = str[i] + newStr;
+//     }
+//     return newStr;
+// }
+
 function reverse(str) {
-    let newStr = "";
-    for (let i = 0; i < str.length; i++) {
-        newStr = str[i] + newStr;
-    }
-    return newStr;
+    return str.split('').reduce(function (newStr, character) {
+        return character + newStr;
+    }, '');
 }
 
 console.log(reverse("abc"));
