@@ -1,7 +1,15 @@
 // given a string, return a new string with the reverse order of characters
 
+// function reverse(str) {
+//     return str.split('').reverse().join('');
+// }
+
 function reverse(str) {
-    return str.split('').reverse().join('');
+    let newStr = "";
+    for (let i = 0; i < str.length; i++) {
+        newStr = str[i] + newStr;
+    }
+    return newStr;
 }
 
 console.log(reverse("abc"));
