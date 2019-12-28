@@ -27,19 +27,6 @@ console.log(expandedForm(42));
 console.log(expandedForm(70304));
 // "70000 + 300 + 4"
 
-// insertion sort
-// insertionSort = (arr) => {
-//     for (let i = 1; i < arr.length; i++) {
-//         let currentElement = arr[i];
-//         let j = i - 1;
-//         while (j >= 0 && arr[j] > currentElement) {
-//             arr[j + 1] = arr[j];
-//             j--;
-//         }
-//         arr[j + 1] = currentElement;
-//     }
-//     return arr;
-// }
 insertionSort = (arr) => {
     for (let i = 1; i < arr.length; i++) {
         for (let j = 0; j < i; j++) {
