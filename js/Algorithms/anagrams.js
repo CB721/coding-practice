@@ -8,6 +8,7 @@
 //     const lowerB = strB.toLowerCase().split('').sort().join('').replace(/[^a-zA-Z\d\s:]/g, '');
 //     return lowerA === lowerB;
 // }
+
 function anagrams(strA, strB) {
     const aCharMap = buildCharMap(strA);
     const bCharMap = buildCharMap(strB);
