@@ -12,14 +12,25 @@
 //     }
 //     return splitStr.join(' ');
 // }
+// function capitalize(str) {
+//     const splitStr = str.split(' ');
+//     const newStr = [];
+//     for (let i = 0; i < splitStr.length; i++) {
+//         let word = splitStr[i][0].toUpperCase() + splitStr[i].slice(1);
+//         newStr.push(word);
+//     }
+//     return newStr.join(' ');
+// }
 function capitalize(str) {
-    const splitStr = str.split(' ');
-    const newStr = [];
-    for (let i = 0; i < splitStr.length; i++) {
-        let word = splitStr[i][0].toUpperCase() + splitStr[i].slice(1);
-        newStr.push(word);
+    let results = str[0].toUpperCase();
+    for (let i = 1; i < str.length; i++) {
+        if (str[i - 1] === " ") {
+            results += str[i].toUpperCase();
+        } else {
+            results += str[i];
+        }
     }
-    return newStr.join(' ');
+    return results;
 }
 
 console.log(capitalize('a short sentence'));
