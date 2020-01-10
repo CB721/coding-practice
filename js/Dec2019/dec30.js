@@ -11,8 +11,8 @@
 
 function prefill(n, v) {
     let fillNum = parseInt(n);
-    if (n === Infinity || n === -Infinity || n === NaN || n % 1 !== 0 || n < 0 || typeof(n) === "boolean") {
-        throw TypeError (n + " is invalid");
+    if (n === Infinity || n === -Infinity || n === NaN || n % 1 !== 0 || n < 0 || typeof (n) === "boolean") {
+        throw TypeError(n + " is invalid");
     } else if (Number.isInteger(fillNum)) {
         return Array.from(Array(+n), x => v);
     } else if (v.length < 1) {
@@ -22,11 +22,38 @@ function prefill(n, v) {
     }
 }
 
-console.log(prefill(3, 1));
-// [1, 1, 1]
-console.log(prefill(2, "abc"));
-// ["abc", "abc"]
-console.log(prefill("3", prefill(2, '2d')));
-// [[2d, 2d], [2d, 2d], [2d, 2d]]
-console.log(prefill("xyz", 1));
-// throws TypeError with message "xyz is invalid"
+// console.log(prefill(3, 1));
+// // [1, 1, 1]
+// console.log(prefill(2, "abc"));
+// // ["abc", "abc"]
+// console.log(prefill("3", prefill(2, '2d')));
+// // [[2d, 2d], [2d, 2d], [2d, 2d]]
+// console.log(prefill("xyz", 1));
+// // throws TypeError with message "xyz is invalid"
+
+// Write a programme that can take any number of horses as its only argument and returns the total number of different combinations of competitors winning gold silver and bronze.
+
+function horses(n) {
+    if (n % 1 !== 0 || n === NaN) {
+        return undefined;
+    }
+    if (n <= 3) {
+        return n;
+    }
+    let combinations = 0;
+    for (let i = 0; i <= n; i++) {
+        // for each number, each other number can have two positions
+        for (let j = 0; j < n; i++) {
+            combinations += j*n;
+        }
+    }
+    return combinations;
+    // return n * (n - 1);
+}
+
+console.log(horses(15));
+// 2730
+// console.log(horses(1));
+// 1
+// console.log(horses(2.5));
+// undefined
