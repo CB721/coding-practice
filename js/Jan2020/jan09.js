@@ -7,7 +7,7 @@
 
 function datindrome(userYear) {
     if (userYear <= 0 || typeof (userYear) === 'string') {
-        return "That was a long long time ago..."
+        return "That was a long time ago in a galaxy far far away..."
     }
     const today = new Date();
     const year = userYear || today.getFullYear();
