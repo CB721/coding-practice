@@ -1,21 +1,18 @@
-﻿<Properties StartupConfiguration="{D6066911-C753-45DD-9838-B6D8BF9FD60F}|Default">
-  <MonoDevelop.Ide.ItemProperties.HelloWorld PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="HelloWorld/Program.cs">
+﻿<Properties StartupConfiguration="{6A1784E9-7558-484D-AC27-544121021ECA}|Default">
+  <MonoDevelop.Ide.ItemProperties.rockPaperScissors PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="rockPaperScissors/Program.cs">
     <Files>
-      <File FileName="HelloWorld/Program.cs" Line="21" Column="82" />
+      <File FileName="rockPaperScissors/Program.cs" Line="88" Column="26" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="HelloWorld" expanded="True">
-            <Node name="HelloWorld" expanded="True">
+          <Node name="rockPaperScissors" expanded="True">
+            <Node name="rockPaperScissors" expanded="True">
               <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
         </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

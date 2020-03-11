@@ -1,0 +1,10 @@
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/bin/Debug/netcoreapp3.1/rockPaperScissors.deps.json
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/bin/Debug/netcoreapp3.1/rockPaperScissors.runtimeconfig.json
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/bin/Debug/netcoreapp3.1/rockPaperScissors.runtimeconfig.dev.json
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/bin/Debug/netcoreapp3.1/rockPaperScissors.dll
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/bin/Debug/netcoreapp3.1/rockPaperScissors.pdb
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/obj/Debug/netcoreapp3.1/rockPaperScissors.csprojAssemblyReference.cache
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/obj/Debug/netcoreapp3.1/rockPaperScissors.AssemblyInfoInputs.cache
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/obj/Debug/netcoreapp3.1/rockPaperScissors.AssemblyInfo.cs
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/obj/Debug/netcoreapp3.1/rockPaperScissors.dll
+/Users/clintbrodar/Class/Homework/coding-practice/c#/rockPaperScissors/rockPaperScissors/obj/Debug/netcoreapp3.1/rockPaperScissors.pdb
