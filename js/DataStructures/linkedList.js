@@ -30,4 +30,18 @@ class LinkedList {
         // repair the head reference
         this.head = node;
     }
+    size() {
+        // total of nodes in linked list
+        let counter = 0;
+        // get reference to first node in the linked list
+        let node = this.head;
+        // if there is no node, the while node will not be run
+        while(node) {
+            counter++;
+            // go to the next node
+            // if the no node after this, than the value will be null and the next attempt to iterate won't happen
+            node = node.next;
+        }
+        return counter;
+    }
 }
