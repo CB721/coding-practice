@@ -58,4 +58,46 @@ class LinkedList {
         }
         return lastNode;
     }
+    clear() {
+        // removing the head disconnects all of the nodes from the list
+        this.head = null;
+    }
+    removeFirst() {
+        // check if there is head node
+        if (this.head) {
+            // grab a reference to the first node
+            let node = this.head;
+            // set the head to be the next node
+            // if there is not another, than we are at the end of the list and are removing the final node
+            let nextNode = node.next;
+            this.head = nextNode;
+        } else {
+            return;
+        }
+    }
+    removeLast() {
+        if (!this.head) {
+            return;
+        }
+        // if there is only one node in the list
+        if (!this.head.next) {
+            this.head = null;
+            return;
+        }
+        let currNode = this.head.next;
+        let prevNode = this.head;
+        // while there is a next value
+        while(currNode.next) {
+            // the last node will not have a next value
+            if (!currNode.next) {
+                // remove reference to last node
+                prevNode.next = null;
+            } else {
+                // update previous to current
+                prevNode = currNode;
+                // update current to next
+                currNode = currNode.next;
+            }
+        }
+    }
 }
