@@ -21,7 +21,13 @@ class Node {
 
 class LinkedList {
     constructor() {
+        // the head will be changed to the first node of the list
         this.head = null;
     }
-    
+    insertFirst(data) {
+        // pass in the head, and change the first node, to the second node
+        const node = new Node(data, this.head);
+        // repair the head reference
+        this.head = node;
+    }
 }
