@@ -52,7 +52,7 @@ class LinkedList {
         let lastNode = null;
         while(node) {
             node = node.next;
-            if (!node.next) {
+            if (node && !node.next) {
                 lastNode = node;
             }
         }
@@ -100,4 +100,32 @@ class LinkedList {
             }
         }
     }
+    insertLast(data) {
+        const lastNode = this.getLast();
+        if (lastNode) {
+            lastNode.next = new Node(data);
+        } else {
+            this.head = new Node(data);
+        }
+    }
 }
+
+const list = new LinkedList();
+console.log(list);
+list.insertFirst("b");
+list.insertFirst("a");
+list.insertFirst("c");
+list.insertFirst("d");
+console.log(list.size());
+console.log(list.getFirst());
+console.log(list.getLast());
+list.removeFirst();
+console.log(list.size());
+console.log(list.getFirst());
+list.removeLast();
+console.log(list.size());
+console.log(list.getLast());
+list.insertLast("e");
+console.log(list.getLast());
+// list.clear();
+// console.log(list);
