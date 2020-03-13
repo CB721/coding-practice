@@ -1,15 +1,15 @@
 // create a class instance to represent a node
-    // it should have two properites: "data" and "next"
-    // accept both as arguments to the "node" constructor and assign them to the instance as properties
-    // if next is not provided, its default value should be null
+// it should have two properites: "data" and "next"
+// accept both as arguments to the "node" constructor and assign them to the instance as properties
+// if next is not provided, its default value should be null
 // create a class instance to represent a linked list
-    // it should not have a head node associated with it
-    // it will have one property "head" which is a reference to the first node in the list
-    // by default, the head should be null
+// it should not have a head node associated with it
+// it will have one property "head" which is a reference to the first node in the list
+// by default, the head should be null
 // create a new node from argument "data"
-    // assign the resulting node to the head property
-    // make sure to handle the case in which the linked list already has a node assigned to the head property
- 
+// assign the resulting node to the head property
+// make sure to handle the case in which the linked list already has a node assigned to the head property
+
 // implement classes Node and Linked Lists
 
 class Node {
@@ -36,7 +36,7 @@ class LinkedList {
         // get reference to first node in the linked list
         let node = this.head;
         // if there is no node, the while node will not be run
-        while(node) {
+        while (node) {
             counter++;
             // go to the next node
             // if the no node after this, than the value will be null and the next attempt to iterate won't happen
@@ -50,7 +50,7 @@ class LinkedList {
     getLast() {
         let node = this.head;
         let lastNode = null;
-        while(node) {
+        while (node) {
             node = node.next;
             if (node && !node.next) {
                 lastNode = node;
@@ -87,7 +87,7 @@ class LinkedList {
         let currNode = this.head.next;
         let prevNode = this.head;
         // while there is a next value
-        while(currNode.next) {
+        while (currNode.next) {
             // the last node will not have a next value
             if (!currNode.next) {
                 // remove reference to last node
@@ -107,6 +107,23 @@ class LinkedList {
         } else {
             this.head = new Node(data);
         }
+    }
+    getAt(index) {
+        if (!this.head) {
+            return null;
+        }
+        let i = 0;
+        let node = this.head;
+        // while we haven't reached the specified index and there is a next node
+        while (node) {
+            if (i === index) {
+                return node;
+            } else {
+                node = node.next;
+                i++;
+            }
+        }
+        return null;
     }
 }
 
@@ -129,3 +146,4 @@ list.insertLast("e");
 console.log(list.getLast());
 // list.clear();
 // console.log(list);
+console.log(list.getAt(10));
