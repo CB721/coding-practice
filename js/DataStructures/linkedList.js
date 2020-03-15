@@ -125,25 +125,60 @@ class LinkedList {
         }
         return null;
     }
+    removeAt(index) {
+        if (!this.head) {
+            return null;
+        }
+        let prevNode;
+        // check that the index passed is a valid index
+        if (index - 1 >= 0) {
+            // get the node before the target
+            prevNode = this.getAt(index - 1);
+        } else if (index === 0) {
+            // if the specified index is 0 remove the first node
+            this.removeFirst();
+            return;
+        }
+        // if the node before the target is null, than the target is also null
+        if (!prevNode) {
+            return;
+        }
+        // if the index that was passed in is a valid node
+        if (prevNode.next) {
+            const targetNode = prevNode.next
+            // check if there is a node after the specified index
+            if (targetNode.next) {
+                // set the previous node to link to the node after the specified index
+                prevNode.next = targetNode.next;
+            } else {
+                // otherwise just remove the reference to the target node
+                prevNode.next = null;
+            }
+        }
+        return;
+    }
 }
 
 const list = new LinkedList();
-console.log(list);
+// console.log(list);
 list.insertFirst("b");
 list.insertFirst("a");
 list.insertFirst("c");
 list.insertFirst("d");
-console.log(list.size());
-console.log(list.getFirst());
-console.log(list.getLast());
+// console.log(list.size());
+// console.log(list.getFirst());
+// console.log(list.getLast());
 list.removeFirst();
-console.log(list.size());
-console.log(list.getFirst());
+// console.log(list.size());
+// console.log(list.getFirst());
 list.removeLast();
-console.log(list.size());
-console.log(list.getLast());
+// console.log(list.size());
+// console.log(list.getLast());
 list.insertLast("e");
-console.log(list.getLast());
+// console.log(list.getLast());
 // list.clear();
 // console.log(list);
-console.log(list.getAt(10));
+// console.log(list.head.next.next);
+console.log(list.getAt(3));
+list.removeAt(3);
+console.log(list.getAt(3));
