@@ -157,6 +157,30 @@ class LinkedList {
         }
         return;
     }
+    insertAt(data, index) {
+        if (!this.head) {
+            this.head = new Node(data);
+        }
+        // if the specified index is 0
+        if (index === 0) {
+            this.insertFirst();
+            return;
+        }
+        const prevNode = this.getAt(index - 1);
+        const postNode = this.getAt(index + 1);
+        // if the node before the specified index is null, then we are inserting at the end of the list
+        if (!prevNode) {
+            this.insertLast(data);
+        } else {
+            const newNode = new Node(data);
+            prevNode.next = newNode;
+            // if the node after the specified index is valid
+            if (postNode) {
+                newNode.next = postNode
+            }
+        }
+        return;
+    }
 }
 
 const list = new LinkedList();
@@ -179,6 +203,8 @@ list.insertLast("e");
 // list.clear();
 // console.log(list);
 // console.log(list.head.next.next);
-console.log(list.getAt(3));
-list.removeAt(3);
-console.log(list.getAt(3));
+// console.log(list.getAt(3));
+// list.removeAt(3);
+// console.log(list.getAt(3));
+list.insertAt("f", 2);
+console.log(list.getAt(2))
