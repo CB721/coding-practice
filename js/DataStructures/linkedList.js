@@ -9,7 +9,6 @@
 // create a new node from argument "data"
 // assign the resulting node to the head property
 // make sure to handle the case in which the linked list already has a node assigned to the head property
-
 // implement classes Node and Linked Lists
 
 class Node {
@@ -29,6 +28,7 @@ class LinkedList {
         const node = new Node(data, this.head);
         // repair the head reference
         this.head = node;
+        return;
     }
     size() {
         // total of nodes in linked list
@@ -183,6 +183,8 @@ class LinkedList {
     }
 }
 
+module.exports = { LinkedList };
+
 const list = new LinkedList();
 // console.log(list);
 list.insertFirst("b");
@@ -207,4 +209,4 @@ list.insertLast("e");
 // list.removeAt(3);
 // console.log(list.getAt(3));
 list.insertAt("f", 2);
-console.log(list.getAt(2))
+// console.log(list.getAt(2))
