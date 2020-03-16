@@ -34,7 +34,7 @@ linkedList.insertFirst(l);
 linkedList.insertFirst(i);
 linkedList.insertFirst(l);
 linkedList.insertFirst(c);
-console.log(circular(linkedList)) // false
+console.log(circular(linkedList)); // false
 const circleList = new LinkedList();
 c = new Node(c);
 l = new Node(l);
