@@ -19,6 +19,12 @@ class Node {
 }
 
 class Tree {
+    constructor() {
+        this.root = null;
+    }
+    // breadth first search
+    
+    // depth first search
 
 }
 
