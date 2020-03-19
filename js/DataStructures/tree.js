@@ -29,15 +29,21 @@ class Tree {
         while (tempArr.length > 0) {
             // remove first node in the array
             const currNode = tempArr.shift();
-            // push a copy of the current elements children array into the temp array
+            // push a copy of the current node's children array to the end of the temp array
             tempArr.push(...currNode.children)
             // perform whichever action(function) was passed into this function
-            action(currElement);
+            action(currNode);
         }
     }
     // depth first search
     traverseDFS(action) {
-
+        const tempArr = [this.root];
+        while(tempArr.length) {
+            const currNode = tempArr.shift();
+            // add a copy of the current node's children array to the start of the temp array
+            tempArr.unshift(...currNode.children);
+            action(currNode);
+        }
     }
 }
 
