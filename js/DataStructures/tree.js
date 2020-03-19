@@ -23,9 +23,22 @@ class Tree {
         this.root = null;
     }
     // breadth first search
-    
+    traverseBF(action) {
+        const tempArr = [this.root];
+        // iterate until all of the nodes have been processed
+        while (tempArr.length > 0) {
+            // remove first node in the array
+            const currNode = tempArr.shift();
+            // push a copy of the current elements children array into the temp array
+            tempArr.push(...currNode.children)
+            // perform whichever action(function) was passed into this function
+            action(currElement);
+        }
+    }
     // depth first search
+    traverseDFS(action) {
 
+    }
 }
 
 module.exports = { Tree, Node };
