@@ -41,9 +41,39 @@ function arrayDiff(a, b) {
     return outArr;
 }
 
-console.log(arrayDiff([], [4, 5]));
-// []
-console.log(arrayDiff([3, 4], [3]));
-// [4]
-console.log(arrayDiff([1, 8, 2], []));
-// [1, 8, 2]
+// console.log(arrayDiff([], [4, 5]));
+// // []
+// console.log(arrayDiff([3, 4], [3]));
+// // [4]
+// console.log(arrayDiff([1, 8, 2], []));
+// // [1, 8, 2]
+
+// In this kata, you must create a digital root function.
+
+// A digital root is the recursive sum of all the digits in a number. Given n, take the sum of the digits of n. If that value has more than one digit, continue reducing in this way until a single-digit number is produced. This is only applicable to the natural numbers.
+
+function digital_root(n) {
+    let numArr = n.toString().split("");
+    let result = 10;
+    while (result > 9) {
+        let temp = 0;
+        for (let i = 0; i < numArr.length; i++) {
+            temp += parseInt(numArr[i]);
+        }
+        if (temp < 10) {
+            result = temp;
+        } else {
+            numArr = temp.toString().split("");
+        }
+    }
+    return result;
+}
+
+console.log(digital_root(16));
+// 7
+console.log(digital_root(456));
+// 6
+console.log(digital_root(942));
+// 6
+console.log(digital_root(132189));
+// 6
