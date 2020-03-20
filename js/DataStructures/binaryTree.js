@@ -38,6 +38,8 @@ class Node {
     }
 }
 
+module.exports = { Node };
+
 const node = new Node("n");
 node.insert("i");
 node.insert("c");
@@ -45,12 +47,12 @@ node.insert("l");
 node.insert("t");
 
 // console.log(node);
-console.log(node.contains("c"))
+// console.log(node.contains("c"))
 // Node { data: 'c', right: null, left: null }
-console.log(node.contains("i"));
+// console.log(node.contains("i"));
 // Node {
 //     data: 'i',
 //     right: Node { data: 'l', right: null, left: null },
 //     left: Node { data: 'c', right: null, left: null } }
-console.log(node.contains("z"));
+// console.log(node.contains("z"));
 // null
