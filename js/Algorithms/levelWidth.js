@@ -20,6 +20,7 @@ function levelWidth(root) {
     return counters;
 }
 
+
 const node = new Node("jack");
 node.add("randall");
 node.add("kevin");
