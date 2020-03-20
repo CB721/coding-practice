@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="clickable-button">Click Me!</button>
+    <script>
+        // create an 'eventing' library out of the Events class
+        // it should have methods 'on', 'trigger' and 'off'
+        class Events {
+            constructor() {
+                this.events = {};
+            }
+            on(eventName, callback) {
+                if (this.events[eventName]) {
+                    this.events[eventName].push(callback);
+                } else {
+                    this.events[eventName] = [callback];
+                }
+            }
+            trigger(eventName) {
+                if (this.events[eventName]) {
+                    for (let callback of this.events[eventName]) {
+                        callback();
+                    }
+                }
+            }
+            off(eventName) {
+                delete this.events[eventName];
+            }
+        }
+
+        const event = new Events();
+        
+        event.on("click", function (fn, data) {
+            fn(data);
+        });
+        event.on("hover", function (fn, data) {
+            fn(data);
+        });
+
+        function addContentToPage(data) {
+            var div = document.createElement("div");
+            div.setAttribute("style", "width: 100vw; height: auto; margin: 0 auto; border: 3px solid red; border-radius: 5px; font-size: 32px; transform: scale(1); transition: 0.3s;");
+            var paragraph = document.createElement("p");
+            paragraph.setAttribute("style", "text-transform: uppercase; margin: 0 auto; padding: 5px;");
+            paragraph.innerHTML = data;
+            div.append(paragraph);
+            document.body.append(div);
+        }
+        function expand(id) {
+            var element = document.getElementById(id);
+            element.setAttribute("style", "width: 100vw; height: auto; margin: 0 auto; border: 3px solid red; border-radius: 5px; font-size: 32px; transform: scale(1.1); transition: 0.3s;");
+        }
+        var button = document.getElementById("clickable-button");
+        button.setAttribute("value", "here is a custom button");
+
+        button.addEventListener("click", () => {
+            event.events.click[0](addContentToPage, button.value);
+        });
+        button.addEventListener("mouseenter", () => {
+            event.events.hover[0](expand, button.id);
+        });
+
+    </script>
+</body>
+
+</html>
