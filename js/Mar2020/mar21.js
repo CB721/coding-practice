@@ -76,18 +76,50 @@ function bingo(ticket, win) {
 // you can assume the string has sufficient space at the end to hold additional characters
 // you cannot use the replace method
 
-function urlify(str) {
-    const splitStr = str.toLowerCase().trim().split("");
-    const url = splitStr.map(letter => {
-        if (letter === " ") {
-            letter = "%20";
+// function urlify(str) {
+//     const splitStr = str.toLowerCase().trim().split("");
+//     const url = splitStr.map(letter => {
+//         if (letter === " ") {
+//             letter = "%20";
+//         }
+//         return letter;
+//     });
+//     return url.join("");
+// }
+
+// console.log(urlify("Mr John Smith      "));
+// // mr%20john%20smith
+// console.log(urlify("jOhnny Appleseed"));
+// // johnny%20appleseed
+
+
+// string compression
+// implement a method to perform basic string compression using the counts of repeated characters
+// if the compressed string would not become smaller than the original, return the original
+// the string will only have upper and lowercase letters (a-z)
+
+function strCompress(str) {
+    const splitStr = str.split("");
+    let outStr = [];
+    for (let i = 0; i < splitStr.length; i++) {
+        let tempArr = [splitStr[i], 1];
+        if (splitStr[i] !== splitStr[i - 1]) {
+            for (let j = i + 1; j < splitStr.length; j++) {
+                if (splitStr[i] === splitStr[j]) {
+                    tempArr[1]++;
+                } else {
+                    break;
+                }
+            }
+            outStr.push(tempArr);
         }
-        return letter;
-    });
-    return url.join("");
+    }
+    outStr = outStr.map(subArr => {
+        return subArr[0] + subArr[1];
+    })
+    return outStr.join("");
+    // return str.length > outStr.length ? outStr.join("") : str;
 }
 
-console.log(urlify("Mr John Smith      "));
-// mr%20john%20smith
-console.log(urlify("jOhnny Appleseed"));
-// johnny%20appleseed
+console.log(strCompress("aabcccccaaa"));
+// "a2b1c5a3"
