@@ -53,6 +53,12 @@ function bingo(ticket, win) {
         return "Loser!";
     }
 }
+function bingo(ticket, win) {
+    const winners = ticket.filter(item => {
+        return item[0].includes(String.fromCharCode(item[1]));
+    });
+    return winners.length >= win ? "Winner" : "Loser";
+}
 
 console.log(bingo([['ABC', 65], ['HGR', 74], ['BYHT', 74]], 2));
 // 'Loser!'
