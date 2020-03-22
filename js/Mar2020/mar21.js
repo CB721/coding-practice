@@ -60,11 +60,34 @@ function bingo(ticket, win) {
     return winners.length >= win ? "Winner" : "Loser";
 }
 
-console.log(bingo([['ABC', 65], ['HGR', 74], ['BYHT', 74]], 2));
-// 'Loser!'
-console.log(bingo([['ABC', 65], ['HGR', 74], ['BYHT', 74]], 1));
-// 'Winner!'
-console.log(bingo([['HGTYRE', 74], ['BE', 66], ['JKTY', 74]], 3));
-// 'Loser!'
-console.log(bingo([['IXIQ', 74], ['SDKEKT', 67], ['SHJQ', 71], ["MAGZB", 89], ["SMMDAOQ", 77]], 2));
-// 'Loser!'
+// console.log(bingo([['ABC', 65], ['HGR', 74], ['BYHT', 74]], 2));
+// // 'Loser!'
+// console.log(bingo([['ABC', 65], ['HGR', 74], ['BYHT', 74]], 1));
+// // 'Winner!'
+// console.log(bingo([['HGTYRE', 74], ['BE', 66], ['JKTY', 74]], 3));
+// // 'Loser!'
+// console.log(bingo([['IXIQ', 74], ['SDKEKT', 67], ['SHJQ', 71], ["MAGZB", 89], ["SMMDAOQ", 77]], 2));
+// // 'Loser!'
+
+
+// URLify
+// write a method to replace all spaces in a string with '%20'
+// since this is a url, all characters should be lowercase
+// you can assume the string has sufficient space at the end to hold additional characters
+// you cannot use the replace method
+
+function urlify(str) {
+    const splitStr = str.toLowerCase().trim().split("");
+    const url = splitStr.map(letter => {
+        if (letter === " ") {
+            letter = "%20";
+        }
+        return letter;
+    });
+    return url.join("");
+}
+
+console.log(urlify("Mr John Smith      "));
+// mr%20john%20smith
+console.log(urlify("jOhnny Appleseed"));
+// johnny%20appleseed
