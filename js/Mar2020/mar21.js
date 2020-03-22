@@ -121,5 +121,8 @@ function strCompress(str) {
     // return str.length > outStr.length ? outStr.join("") : str;
 }
 
-console.log(strCompress("aabcccccaaa"));
+// console.log(strCompress("aabcccccaaa"));
 // "a2b1c5a3"
+
+const testTime = require("../utils/timeTester");
+console.log(testTime.timeTester(strCompress, "aabcccccaaa"));
