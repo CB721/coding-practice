@@ -1,0 +1,10 @@
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/bin/Debug/netcoreapp3.1/Madlib.deps.json
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/bin/Debug/netcoreapp3.1/Madlib.runtimeconfig.json
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/bin/Debug/netcoreapp3.1/Madlib.runtimeconfig.dev.json
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/bin/Debug/netcoreapp3.1/Madlib.dll
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/bin/Debug/netcoreapp3.1/Madlib.pdb
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/obj/Debug/netcoreapp3.1/Madlib.csprojAssemblyReference.cache
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/obj/Debug/netcoreapp3.1/Madlib.AssemblyInfoInputs.cache
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/obj/Debug/netcoreapp3.1/Madlib.AssemblyInfo.cs
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/obj/Debug/netcoreapp3.1/Madlib.dll
+/Users/clintbrodar/Class/Homework/coding-practice/c#/Madlib/Madlib/obj/Debug/netcoreapp3.1/Madlib.pdb

@@ -1,0 +1,25 @@
+﻿<Properties StartupConfiguration="{DF6EC667-0D4A-4825-9B90-7EA5E8342FF9}|Default">
+  <MonoDevelop.Ide.ItemProperties.Madlib PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Madlib/Program.cs">
+    <Files>
+      <File FileName="Madlib/Program.cs" Line="35" Column="29" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Madlib" expanded="True">
+            <Node name="Madlib" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
