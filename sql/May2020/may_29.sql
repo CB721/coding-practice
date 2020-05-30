@@ -57,3 +57,8 @@ student_no BETWEEN 3 AND 5) OR student_no = 7) OR
 
 -- Write a query to select all of the domains for each employee's email
 SELECT SUBSTRING(email, POSITION('@' IN email) + 1) FROM employees;
+
+-- Write a query that returns how many employees are making more than $100,000
+SELECT COUNT(employee_id) AS top_paid_employees_total
+FROM employees
+WHERE salary > 99999;
