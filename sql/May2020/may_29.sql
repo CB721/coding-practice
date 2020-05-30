@@ -54,3 +54,6 @@ SELECT * FROM students
 WHERE ((age < 20 AND
 student_no BETWEEN 3 AND 5) OR student_no = 7) OR
 (age > 20 AND student_no > 3);
+
+-- Write a query to select all of the domains for each employee's email
+SELECT SUBSTRING(email, POSITION('@' IN email) + 1) FROM employees;
