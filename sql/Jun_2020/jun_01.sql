@@ -85,3 +85,17 @@ HAVING COUNT(*) >= ALL (SELECT COUNT(*) FROM employees GROUP BY salary)
 ORDER BY salary DESC;
 LIMIT 1;
 
+-- Write a query that returns all of unique names with a corresponding id
+SELECT * FROM dupes
+WHERE id IN (
+	SELECT MIN(id)
+	FROM dupes
+	GROUP BY name
+);
+-- Delete all names that are not unique
+DELETE FROM dupes
+WHERE id IN (
+	SELECT MIN(id)
+	FROM dupes
+	GROUP BY name
+);
