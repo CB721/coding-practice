@@ -99,3 +99,43 @@ WHERE id IN (
 	FROM dupes
 	GROUP BY name
 );
+
+-- Return the average salary for all employees except the minimum and maximum salaries
+SELECT ROUND(AVG(salary)) AS avg_salary
+FROM employees
+WHERE salary NOT IN (
+	(SELECT MIN(salary) FROM employees),
+	(SELECT MAX(salary) FROM employees)
+);
+
+-- Is the students table directly related to the courses table? Why or why not?
+No because they do not share a column in common
+
+-- Using subqueries only, write a SQL statement that returns the names of those students that are taking the courses  Physics and US History. 
+-- NOTE: Do not jump ahead and use joins. I want you to solve this problem using only what you've learned in this section. 
+SELECT student_name
+FROM students
+WHERE student_no 
+	IN (SELECT student_no FROM student_enrollment WHERE course_no
+	   	IN (SELECT course_no FROM courses WHERE course_title = 'Physics' OR course_title = 'US History')
+	   );
+
+-- Using subqueries only, write a query that returns the name of the student that is taking the highest number of courses. 
+-- NOTE: Do not jump ahead and use joins. I want you to solve this problem using only what you've learned in this section. 
+SELECT student_name
+FROM students
+WHERE student_no 
+	IN (SELECT student_no 
+		FROM student_enrollment
+		GROUP BY student_no
+		ORDER BY COUNT(course_no) DESC
+		LIMIT 1
+	   );
+
+-- Answer TRUE or FALSE for the following statement:
+-- Subqueries can be used in the FROM clause and the WHERE clause but cannot be used in the SELECT Clause. 
+FALSE
+
+-- Write a query to find the student that is the oldest. You are not allowed to use LIMIT or the ORDER BY clause to solve this problem.
+SELECT * FROM students
+WHERE age = (SELECT MAX(age) FROM students);
