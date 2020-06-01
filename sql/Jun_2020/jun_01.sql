@@ -57,3 +57,31 @@ AND region_id
 -- Return the first name and department for each employee with how much less they make than the highest paid employee in the company
 SELECT first_name, department, (SELECT MAX(salary) FROM employees) - salary AS max_salary_diff
 FROM employees;
+
+-- Return all of the employees that do not work in the United States
+SELECT *
+FROM employees
+WHERE region_id > ALL (SELECT region_id FROM regions WHERE country = 'United States');
+
+-- Return all of the employees that work in the kids division and the hire dates are greater than all of the employees that work in the maintainence department
+SELECT *
+FROM employees
+WHERE department
+	IN (SELECT department FROM departments WHERE division = 'Kids')
+AND hire_date > ALL 
+	(SELECT hire_date FROM employees WHERE department = 'Maintenance');
+
+-- Return the most common salary from all of the employees.  If there are more than one that occur the same amount of times, return the highest salary.  Solve in two different ways
+SELECT salary, COUNT(*)
+FROM employees
+GROUP BY salary
+ORDER BY COUNT(*) DESC, salary DESC
+LIMIT 1;
+
+SELECT salary
+FROM employees
+GROUP BY salary
+HAVING COUNT(*) >= ALL (SELECT COUNT(*) FROM employees GROUP BY salary)
+ORDER BY salary DESC;
+LIMIT 1;
+
