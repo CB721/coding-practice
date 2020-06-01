@@ -36,3 +36,24 @@ LIMIT 1;
 -- INSERT INTO fruits VALUES (NULL);
 -- Write a query that returns the count of 4. You'll need to count on the column fruit_name and not use COUNT(*)
 SELECT COUNT(1) FROM fruits;
+
+-- Return all of the employees that work in a department not listsed in the departments table
+SELECT * FROM employees
+WHERE department NOT IN (SELECT department FROM departments);
+
+-- Return all of the employees that work in the electronics division
+SELECT *
+FROM (SELECT * FROM employees) a,
+(SELECT * FROM departments) b
+WHERE a.department = b.department AND b.division = 'Electronics';
+
+-- Return all of the employees that work in Asia or Canada that make over $130000
+SELECT *
+FROM employees
+WHERE salary > 130000 
+AND region_id
+	IN (SELECT region_id FROM regions WHERE country = 'Asia' OR country = 'Canada');
+
+-- Return the first name and department for each employee with how much less they make than the highest paid employee in the company
+SELECT first_name, department, (SELECT MAX(salary) FROM employees) - salary AS max_salary_diff
+FROM employees;
