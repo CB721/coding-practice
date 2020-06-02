@@ -85,3 +85,20 @@ SELECT department, MAX(salary) AS max_salary
 FROM employees
 GROUP BY department
 HAVING COUNT(*) > 29;
+
+-- Write a query to return the employee with the highest and lowest salary for each department
+SELECT 
+	department, 
+	first_name, 
+	salary, 
+	CASE WHEN salary = max_salary THEN TRUE ELSE FALSE END AS is_highest_salary,
+	CASE WHEN salary = min_salary THEN TRUE ELSE FALSE END AS is_lowest_salary
+FROM (SELECT 
+		department, 
+		first_name, 
+		salary, 
+		(SELECT MAX(salary) FROM employees e2 WHERE e2.department = e1.department) AS max_salary,
+		(SELECT MIN(salary) FROM employees e3 WHERE e3.department = e1.department) AS min_salary
+	FROM employees e1) a
+WHERE salary = min_salary OR salary = max_salary
+ORDER BY department;
