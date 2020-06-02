@@ -153,7 +153,7 @@ FROM (SELECT
 GROUP BY a.salary_category
 ORDER BY COUNT(*);
 
--- Transpose the date from above to have one row of all of the salary categories and one row for the total employees for each category
+-- Transpose the data from above to have one row of all of the salary categories and one row for the total employees for each category
 SELECT SUM(CASE 
 		   	WHEN salary < 100000 THEN 1 
 		   	ELSE 0
@@ -167,3 +167,84 @@ SELECT SUM(CASE
 		   	ELSE 0
 		  END) AS "Executive"
 FROM employees;
+
+-- Transpose the data for total employees in the Tools and Sports departments
+SELECT SUM(CASE 
+		   	WHEN department = 'Sports' THEN 1 
+		   	ELSE 0
+		  END) AS sports_employee_total,
+		SUM(CASE 
+		  WHEN department = 'Tools' THEN 1 
+		  ELSE 0
+		END) AS sports_employee_total
+FROM employees;
+
+-- Return the data for each employee on which region they are located in
+SELECT a.first_name, CASE
+						WHEN b.region_id = 1 THEN b.country
+					END AS region_1,
+					CASE
+						WHEN b.region_id = 2 THEN b.country
+					END AS region_2,
+					CASE
+						WHEN b.region_id = 3 THEN b.country
+					END AS region_3,
+					CASE
+						WHEN b.region_id = 4 THEN b.country
+					END AS region_4,
+					CASE
+						WHEN b.region_id = 5 THEN b.country
+					END AS region_5,
+					CASE
+						WHEN b.region_id = 6 THEN b.country
+					END AS region_6,
+					CASE
+						WHEN b.region_id = 7 THEN b.country
+					END AS region_7
+FROM employees a, regions b
+WHERE a.region_id = b.region_id;
+
+-- Transpose the total employees for each region.  Solve two different ways
+SELECT SUM(CASE 
+		WHEN region_id = 1 OR region_id = 2 OR region_id = 3 THEN 1
+		ELSE 0
+		END) AS united_states,
+		SUM(CASE 
+		WHEN region_id = 4 OR region_id = 5 THEN 1
+		ELSE 0
+		END) AS asia,
+		SUM(CASE 
+		WHEN region_id = 6 OR region_id = 7 THEN 1
+		ELSE 0
+		END) AS canada
+FROM employees;
+
+SELECT 
+	COUNT(a.region_1) + COUNT(a.region_2) + COUNT(a.region_3) AS united_states,
+	COUNT(a.region_4) + COUNT(a.region_5) AS asia,
+	COUNT(a.region_6) + COUNT(a.region_7) AS canada
+FROM (
+	SELECT a.first_name, CASE
+						WHEN b.region_id = 1 THEN b.country
+					END AS region_1,
+					CASE
+						WHEN b.region_id = 2 THEN b.country
+					END AS region_2,
+					CASE
+						WHEN b.region_id = 3 THEN b.country
+					END AS region_3,
+					CASE
+						WHEN b.region_id = 4 THEN b.country
+					END AS region_4,
+					CASE
+						WHEN b.region_id = 5 THEN b.country
+					END AS region_5,
+					CASE
+						WHEN b.region_id = 6 THEN b.country
+					END AS region_6,
+					CASE
+						WHEN b.region_id = 7 THEN b.country
+					END AS region_7
+FROM employees a, regions b
+WHERE a.region_id = b.region_id
+) a;
