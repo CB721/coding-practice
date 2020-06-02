@@ -34,7 +34,7 @@ LIMIT 1;
 -- INSERT INTO fruits VALUES ('Apple');
 -- INSERT INTO fruits VALUES (NULL);
 -- INSERT INTO fruits VALUES (NULL);
--- Write a query that returns the count of 4. You'll need to count on the column fruit_name and not use COUNT(*)
+-- Write a query that returns the count of 4
 SELECT COUNT(1) FROM fruits;
 
 -- Return all of the employees that work in a department not listsed in the departments table
