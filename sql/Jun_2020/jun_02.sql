@@ -68,3 +68,20 @@ FROM (SELECT
 		SUM(cost_per_unit * supply) AS total_cost
 	FROM fruit_imports
 	GROUP BY season) a;
+
+-- Write a query to return the number of employees working each department that have more than 30 employees
+SELECT department
+FROM employees d
+WHERE 29 < (SELECT COUNT(*) FROM employees e WHERE e.department = d.department)
+GROUP BY department;
+
+-- Write a query to return the number of employees working each department that have more than 30 employees with the highest salary in each of these departments
+SELECT department, (SELECT MAX(salary) FROM employees f WHERE f.department = d.department) AS max_salary
+FROM employees d
+WHERE 29 < (SELECT COUNT(*) FROM employees e WHERE e.department = d.department)
+GROUP BY department;
+
+SELECT department, MAX(salary) AS max_salary
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 29;
