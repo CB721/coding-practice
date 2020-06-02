@@ -139,3 +139,31 @@ FALSE
 -- Write a query to find the student that is the oldest. You are not allowed to use LIMIT or the ORDER BY clause to solve this problem.
 SELECT * FROM students
 WHERE age = (SELECT MAX(age) FROM students);
+
+-- Return the number of employees that are executives (make more than $160000), paid well (make between $100000 and $160000) and under paid (make less than $100000)
+SELECT a.salary_category, COUNT(*) AS total_employees
+FROM (SELECT
+		CASE
+			WHEN salary < 100000 THEN 'Under paid'
+			WHEN salary > 100000 AND salary < 160000 THEN 'Well paid'
+			WHEN salary > 160000 THEN 'Executive'
+			ELSE 'Unpaid'
+		END AS salary_category
+		FROM employees) a
+GROUP BY a.salary_category
+ORDER BY COUNT(*);
+
+-- Transpose the date from above to have one row of all of the salary categories and one row for the total employees for each category
+SELECT SUM(CASE 
+		   	WHEN salary < 100000 THEN 1 
+		   	ELSE 0
+		  END) AS "Under paid",
+		SUM(CASE 
+		   	WHEN salary > 100000 AND salary < 160000 THEN 1 
+		   	ELSE 0
+		  END) AS "Well paid",
+		SUM(CASE 
+		   	WHEN salary > 160000 THEN 1 
+		   	ELSE 0
+		  END) AS "Executive"
+FROM employees;
