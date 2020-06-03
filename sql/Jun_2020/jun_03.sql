@@ -40,3 +40,19 @@ SELECT division
 FROM departments LEFT JOIN employees
 ON departments.department = employees.department
 WHERE employees.department IS NULL;
+
+-- return only the departments that exist in the employees table that do no exist in the departments table using a different method than above
+SELECT DISTINCT department
+FROM employees
+EXCEPT 
+SELECT department
+FROM departments
+ORDER BY department;
+
+-- return the total number of employees working in each department as well as the total number of employees
+SELECT department, COUNT(*)
+FROM employees
+GROUP BY department
+UNION ALL
+SELECT 'Total', COUNT(*)
+FROM employees;
