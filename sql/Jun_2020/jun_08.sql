@@ -40,3 +40,25 @@ CASE
 END AS paid_above_reg_avg
 FROM employees e INNER JOIN regions
 ON e.region_id = regions.region_id;
+
+-- Return the first name, hire date, salary and company budget over the years(running total)
+SELECT first_name, hire_date, salary,
+SUM(salary) OVER(
+	ORDER BY hire_date RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+) AS running_total
+FROM employees;
+
+-- now get the running total for each department
+SELECT first_name, hire_date, department, salary,
+SUM(salary) OVER(
+	PARTITION BY department
+	ORDER BY hire_date RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+) AS running_total
+FROM employees;
+
+-- Return the adjacent salaries
+SELECT first_name, hire_date, department, salary,
+SUM(salary) OVER(
+	ORDER BY hire_date ROWS BETWEEN 1 PRECEDING AND CURRENT ROW
+) AS running_total
+FROM employees;
