@@ -25,3 +25,12 @@ SELECT first_name, department, salary,
 NTILE(5) OVER (PARTITION BY department ORDER BY salary) AS salary_bracket
 FROM employees;
 
+-- Return each employee as well as the salary of the highest paid employee in their department
+SELECT first_name, department, salary,
+FIRST_VALUE(salary) OVER (PARTITION BY department ORDER BY salary DESC) AS highest_dept_salary
+FROM employees;
+
+-- Return each employee as well as the salary of the third highest paid employee in their department
+SELECT first_name, department, salary,
+NTH_VALUE(salary, 3) OVER (PARTITION BY department ORDER BY salary DESC) AS third_highest_dept_salary
+FROM employees;
