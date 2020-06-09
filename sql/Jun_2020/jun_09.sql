@@ -19,3 +19,9 @@ WHERE salary_rank BETWEEN
 	 WHERE department = a.department
 	 GROUP BY department)
 ORDER BY a.department, salary_rank DESC;
+
+-- Return each employee with their rank inside their department.  Each department should be split into 5 brackets based on salary
+SELECT first_name, department, salary,
+NTILE(5) OVER (PARTITION BY department ORDER BY salary) AS salary_bracket
+FROM employees;
+
