@@ -34,3 +34,4 @@ FROM employees;
 SELECT first_name, department, salary,
 NTH_VALUE(salary, 3) OVER (PARTITION BY department ORDER BY salary DESC) AS third_highest_dept_salary
 FROM employees;
+
