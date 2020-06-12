@@ -165,16 +165,32 @@ function totalTime(timeStamps) {
 
 // given an array of integers and chunk size, divide the array into many subarrays where each subarray is the length of the chunk size
 // if no chunk size is provided, return each integer in the array in its own sub array
+// function chunk(arr, size = 1) {
+//     const outArr = [];
+//     for (let i = 0; i < arr.length; i += size) {
+//         let subArray = [];
+//         for (let j = i; j < i + size; j++) {
+//             if (arr[j]) {
+//                 subArray.push(arr[j]);
+//             }
+//         }
+//         outArr.push(subArray);
+//     }
+//     return outArr;
+// }
 function chunk(arr, size = 1) {
     const outArr = [];
-    for (let i = 0; i < arr.length; i += size) {
-        let subArray = [];
-        for (let j = i; j < i + size; j++) {
-            if (arr[j]) {
-                subArray.push(arr[j]);
-            }
+    for (let number of arr) {
+        // grab the last subarray
+        const last = outArr[outArr.length - 1];
+        // if the last subarray either doesn't exist or it is already the size
+        // create a new subarray and push it into the output array
+        if (!last || last.length === size) {
+            outArr.push([number]);
+        } else {
+            // if the subarray still has space, push the number into it
+            last.push(number);
         }
-        outArr.push(subArray);
     }
     return outArr;
 }
