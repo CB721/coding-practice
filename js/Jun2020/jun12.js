@@ -159,6 +159,29 @@ function totalTime(timeStamps) {
     return `${hours} hours, ${minutes} minutes and ${secondsLeft} seconds`;
 }
 
-console.log(totalTime(["2:15", "4:23", "7:01", "1:56", "2:32", "3:12", "5:01"])); // 0 hours, 26 minutes and 20 seconds
-console.log(totalTime(["12:25", "2:38", "1:59", "10:36", "8:44", "8:12", "24:52"])); // 1 hours, 9 minutes and 26 seconds
-console.log(totalTime(["2:15", "4:23", "7:01", "1:56", "2:32", "3:12", "5:01", "12:25", "2:38", "1:59", "10:36", "8:44", "8:12", "24:52", "23:34", "12:03"])); // 2 hours, 11 minutes and 23 seconds
+// console.log(totalTime(["2:15", "4:23", "7:01", "1:56", "2:32", "3:12", "5:01"])); // 0 hours, 26 minutes and 20 seconds
+// console.log(totalTime(["12:25", "2:38", "1:59", "10:36", "8:44", "8:12", "24:52"])); // 1 hours, 9 minutes and 26 seconds
+// console.log(totalTime(["2:15", "4:23", "7:01", "1:56", "2:32", "3:12", "5:01", "12:25", "2:38", "1:59", "10:36", "8:44", "8:12", "24:52", "23:34", "12:03"])); // 2 hours, 11 minutes and 23 seconds
+
+// given an array of integers and chunk size, divide the array into many subarrays where each subarray is the length of the chunk size
+// if no chunk size is provided, return each integer in the array in its own sub array
+function chunk(arr, size = 1) {
+    const outArr = [];
+    for (let i = 0; i < arr.length; i += size) {
+        let subArray = [];
+        for (let j = i; j < i + size; j++) {
+            if (arr[j]) {
+                subArray.push(arr[j]);
+            }
+        }
+        outArr.push(subArray);
+    }
+    return outArr;
+}
+
+console.log(chunk([3, 2, 5, 10, 15, 2, 4, 8, 9], 2));
+// [ [ 3, 2 ], [ 5, 10 ], [ 15, 2 ], [ 4, 8 ], [ 9 ] ]
+console.log(chunk([3, 2, 5, 10, 15, 2, 4, 8, 9], 10));
+// [[3, 2, 5, 10, 15, 2, 4, 8, 9]]
+console.log(chunk([3, 2, 5, 10, 15, 2, 4, 8, 9]));
+// [[3], [2], [5], [10], [15], [2], [4], [8], [9]]
