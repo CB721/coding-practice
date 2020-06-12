@@ -178,19 +178,26 @@ function totalTime(timeStamps) {
 //     }
 //     return outArr;
 // }
+// function chunk(arr, size = 1) {
+//     const outArr = [];
+//     for (let number of arr) {
+//         // grab the last subarray
+//         const last = outArr[outArr.length - 1];
+//         // if the last subarray either doesn't exist or it is already the size
+//         // create a new subarray and push it into the output array
+//         if (!last || last.length === size) {
+//             outArr.push([number]);
+//         } else {
+//             // if the subarray still has space, push the number into it
+//             last.push(number);
+//         }
+//     }
+//     return outArr;
+// }
 function chunk(arr, size = 1) {
     const outArr = [];
-    for (let number of arr) {
-        // grab the last subarray
-        const last = outArr[outArr.length - 1];
-        // if the last subarray either doesn't exist or it is already the size
-        // create a new subarray and push it into the output array
-        if (!last || last.length === size) {
-            outArr.push([number]);
-        } else {
-            // if the subarray still has space, push the number into it
-            last.push(number);
-        }
+    for (let i = 0; i < arr.length; i += size) {
+        outArr.push(arr.slice(i, i + size));
     }
     return outArr;
 }
