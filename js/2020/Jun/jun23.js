@@ -91,19 +91,46 @@ function fight(robot1, robot2, tactics) {
 let robot1 = { "name": "Rocky", "health": 100, "speed": 20, "tactics": ["punch", "punch", "laser", "missile"] };
 let robot2 = { "name": "Missile Bob", "health": 100, "speed": 21, "tactics": ["missile", "missile", "missile", "missile"] };
 let tactics = { "punch": 20, "laser": 30, "missile": 35 };
-console.log(fight(robot1, robot2, tactics)); // "Missile Bob has won the fight."
+// console.log(fight(robot1, robot2, tactics)); // "Missile Bob has won the fight."
 
 robot1 = { "name": "Rocky", "health": 200, "speed": 20, "tactics": ["punch", "punch", "laser", "missile"] };
 robot2 = { "name": "Missile Bob", "health": 100, "speed": 21, "tactics": ["missile", "missile", "missile", "missile"] };
 tactics = { "punch": 20, "laser": 30, "missile": 35 };
-console.log(fight(robot1, robot2, tactics)); // "Rocky has won the fight."
+// console.log(fight(robot1, robot2, tactics)); // "Rocky has won the fight."
 
 robot1 = { "name": "Rocky", "health": 200, "speed": 15, "tactics": [] };
 robot2 = { "name": "Missile Bob", "health": 100, "speed": 26, "tactics": ["missile", "missile", "missile", "missile"] };
 tactics = { "punch": 20, "laser": 30, "missile": 35 };
-console.log(fight(robot1, robot2, tactics)); // "Missile Bob has won the fight."
+// console.log(fight(robot1, robot2, tactics)); // "Missile Bob has won the fight."
 
 robot1 = { "name": "Knuckles", "health": 200, "speed": 15, "tactics": ["punch", "punch", "missle", "missle"] };
 robot2 = { "name": "Laser Wisp", "health": 100, "speed": 26, "tactics": ["laser", "laser", "laser", "laser"] };
 tactics = { "punch": 20, "laser": 25, "missile": 30 };
-console.log(fight(robot1, robot2, tactics)); // "The fight was a draw."
+// console.log(fight(robot1, robot2, tactics)); // "The fight was a draw."
+
+
+
+// Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+
+// You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+const twoSum = function (nums, target) {
+    const output = [];
+    // iterate over list of numbers
+    for (let i = 0; i < nums.length; i++) {
+        // subtract the target from the current number
+        // get the index
+        let num2Index = nums.indexOf(target - nums[i]);
+        // if the element exists and it is not the current index
+        if (num2Index >= 0 && num2Index !== i) {
+            // push both indicies to the output
+            output.push(i, num2Index);
+            // exit the loop
+            break;
+        }
+    }
+    return output;
+};
+
+console.log(twoSum([2, 7, 11, 15], 9)) // [0, 1]
+console.log(twoSum([3,2,4], 6)) // [1, 2]
