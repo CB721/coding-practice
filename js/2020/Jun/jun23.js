@@ -132,5 +132,22 @@ const twoSum = function (nums, target) {
     return output;
 };
 
-console.log(twoSum([2, 7, 11, 15], 9)) // [0, 1]
-console.log(twoSum([3,2,4], 6)) // [1, 2]
+// console.log(twoSum([2, 7, 11, 15], 9)) // [0, 1]
+// console.log(twoSum([3,2,4], 6)) // [1, 2]
+
+
+
+// Given a 32-bit signed integer, reverse digits of an integer.
+
+function reverse(num) {
+    const isNegative = num < 0 ? true : false;
+    num = parseInt(Math.abs(num).toString().split("").reverse().join(""));
+    if (num > 0x7FFFFFFF) return 0;
+    if (isNegative) num *= -1;
+    return num;
+}
+console.log(reverse(123)) // 321
+console.log(reverse(-123)) // -321
+console.log(reverse(120)) // 21
+console.log(reverse(2147483650)) // 563847412
+console.log(reverse(1534236469)) // 0
