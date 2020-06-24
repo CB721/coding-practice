@@ -146,8 +146,37 @@ function reverse(num) {
     if (isNegative) num *= -1;
     return num;
 }
-console.log(reverse(123)) // 321
-console.log(reverse(-123)) // -321
-console.log(reverse(120)) // 21
-console.log(reverse(2147483650)) // 563847412
-console.log(reverse(1534236469)) // 0
+// console.log(reverse(123)) // 321
+// console.log(reverse(-123)) // -321
+// console.log(reverse(120)) // 21
+// console.log(reverse(2147483650)) // 563847412
+// console.log(reverse(1534236469)) // 0
+
+
+
+// Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+// Coud you solve it without converting the integer to a string?
+
+function isPalindrome(x) {
+    // if the number is negative, it is not a palindrome
+    if (x < 0) return false;
+    // create a reference to the reversed number
+    let reversedNum = 0;
+    // create a reference to the number passed in
+    // we will update this number as we create the reversed number
+    let currNum = x;
+
+    while (currNum > 0) {
+        // get the last digit by getting the remainder of ten from the current number
+        let lastDigit = currNum % 10;
+        // move the reversed number over by one and add the new last digit to the end
+        reversedNum = (reversedNum * 10) + lastDigit;
+        // set the current number to be the original without the last digit
+        // divide by 10 and round down
+        currNum = Math.floor(currNum / 10);
+    }
+    return x === reversedNum;
+}
+
+console.log(isPalindrome(121)) // true
+console.log(isPalindrome(-121)) // false
