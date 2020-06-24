@@ -178,5 +178,115 @@ function isPalindrome(x) {
     return x === reversedNum;
 }
 
-console.log(isPalindrome(121)) // true
-console.log(isPalindrome(-121)) // false
+// console.log(isPalindrome(121)) // true
+// console.log(isPalindrome(-121)) // false
+
+
+// Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+// Symbol       Value
+// I             1
+// V             5
+// X             10
+// L             50
+// C             100
+// D             500
+// M             1000
+// For example, two is written as II in Roman numeral, just two one's added together. Twelve is written as, XII, which is simply X + II. The number twenty seven is written as XXVII, which is XX + V + II.
+
+// Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+// I can be placed before V (5) and X (10) to make 4 and 9. 
+// X can be placed before L (50) and C (100) to make 40 and 90. 
+// C can be placed before D (500) and M (1000) to make 400 and 900.
+// Given a roman numeral, convert it to an integer. Input is guaranteed to be within the range from 1 to 3999.
+
+function romanToInt(s) {
+    let outputValue = 0;
+    for (let i = 0; i < s.length; i++) {
+        let tempI = i + 1;
+        switch (s[i]) {
+            case 'I':
+                let iCount = 1;
+                while (tempI < s.length && tempI < i + 4) {
+                    if (s[tempI] === 'I') {
+                        iCount++;
+                        i = tempI;
+                    }
+                    else if (s[tempI] === 'V') {
+                        iCount -= 1;
+                        outputValue += 4;
+                        i = tempI;
+                        break;
+                    }
+                    else if (s[tempI] === 'X') {
+                        iCount -= 1;
+                        outputValue += 9;
+                        i = tempI;
+                        break;
+                    } else {
+                        break;
+                    }
+                    tempI++;
+                }
+                outputValue += iCount;
+                break;
+            case 'X':
+                let xCount = 1;
+                while (tempI < s.length && tempI < i + 4) {
+                    if (s[tempI] === 'X') {
+                        xCount++;
+                        i = tempI;
+                    } else if (s[tempI] === 'L') {
+                        xCount -= 1;
+                        outputValue += 40;
+                        i = tempI;
+                        break;
+                    } else if (s[tempI] === 'C') {
+                        xCount -= 1;
+                        outputValue += 90;
+                        i = tempI;
+                        break;
+                    } else {
+                        break;
+                    }
+                    tempI++;
+                }
+                outputValue += (xCount * 10);
+                break;
+            case 'V':
+                outputValue += 5;
+                break;
+            case 'L':
+                outputValue += 50;
+                break;
+            case 'C':
+                if (s[tempI] === 'D') {
+                    outputValue += 400;
+                    i = tempI;
+                }
+                else if (s[tempI] === 'M') {
+                    outputValue += 900;
+                    i = tempI;
+                }
+                else outputValue += 100;
+                break;
+            case 'M':
+                outputValue += 1000;
+                break;
+            case 'D':
+                outputValue += 500;
+                break;
+            default:
+                return;
+        }
+    }
+    return outputValue;
+}
+
+console.log(romanToInt('III')) // 3
+console.log(romanToInt('IV')) // 4
+console.log(romanToInt('IX')) // 9
+console.log(romanToInt('LVIII')) // 58
+console.log(romanToInt('MCMXCIV')) // 1994
+console.log(romanToInt('DCXXI')) // 621
