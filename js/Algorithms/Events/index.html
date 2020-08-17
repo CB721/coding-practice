@@ -44,7 +44,7 @@
             fn(data);
         });
 
-        function addContentToPage(data) {
+        function html(data) {
             var div = document.createElement("div");
             div.setAttribute("style", "width: 100vw; height: auto; margin: 0 auto; border: 3px solid red; border-radius: 5px; font-size: 32px; transform: scale(1); transition: 0.3s;");
             var paragraph = document.createElement("p");
@@ -61,7 +61,7 @@
         button.setAttribute("value", "here is a custom button");
 
         button.addEventListener("click", () => {
-            event.events.click[0](addContentToPage, button.value);
+            event.events.click[0](html, button.value);
         });
         button.addEventListener("mouseenter", () => {
             event.events.hover[0](expand, button.id);
