@@ -1,0 +1,51 @@
+$white: rgb(235, 232, 232);
+$black: rgb(41, 41, 41);
+$grey: rgb(97, 97, 97);
+
+@mixin border {
+  border-radius: 0.25rem;
+  border: 3px solid transparent;
+}
+
+.App {
+  text-align: center;
+}
+
+.row {
+  width: 98%;
+  margin: 0;
+  padding: 1%;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#wand-icon {
+  width: 2rem;
+  fill: $grey;
+}
+
+section {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  #title {
+    color: $black;
+  }
+  #job-count {
+    color: $grey;
+  }
+}
+main {
+  width: 50%;
+}
+
+.bold {
+  font-weight: bolder;
+  font-size: 2rem;
+}
+
+.shadow {
+  -webkit-box-shadow: 0px 0px 6px 0px rgba(107,106,107,1);
+  -moz-box-shadow: 0px 0px 6px 0px rgba(107,106,107,1);
+  box-shadow: 0px 0px 6px 0px rgba(107,106,107,1);
+}

@@ -21,5 +21,96 @@ function oddNumbers(l, r) {
     return outArr;
 }
 
-console.log(oddNumbers(3, 14)) // [ 3, 5, 7, 9, 11, 13 ]
-console.log(oddNumbers(22, 77)) // [ 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77 ]
+// console.log(oddNumbers(3, 14)) // [ 3, 5, 7, 9, 11, 13 ]
+// console.log(oddNumbers(22, 77)) // [ 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77 ]
+
+
+
+
+const https = require('https');
+
+async function getUserTransaction(uid, txnType, monthYear) {
+    function getData(page) {
+        return new Promise((resolve, reject) => {
+            https.get(`https://jsonmock.hackerrank.com/api/transactions/search?txnType=${txnType}&userId=${uid}&monthYear=${monthYear}&page=${page}`, (res) => {
+                res.setEncoding('utf8');
+                let rawData = '';
+                res.on('data', (chunk) => { rawData += chunk; });
+                res.on('end', () => {
+                    try {
+                        const parsedData = JSON.parse(rawData);
+                        resolve(parsedData.data);
+                    } catch (e) {
+                        reject(e.message);
+                    }
+                });
+            }).end();
+        })
+    }
+    function getAvg(data) {
+        return new Promise((resolve, reject) => {
+            let totalAmount = 0;
+            let recordCount = 0;
+            data.forEach(record => {
+                recordCount++;
+                let tempAmount = convertDollar(record.amount);
+                totalAmount += tempAmount;
+            });
+            resolve(parseFloat(totalAmount.toFixed(2)));
+        })
+    }
+    function convertDollar(amount) {
+        return parseFloat(amount.replace("$", "").replace(",", ""));
+    }
+    async function collectAllData(cb) {
+        await https.get(`https://jsonmock.hackerrank.com/api/transactions/search?txnType=${txnType}&userId=${uid}&monthYear=${monthYear}`, (res) => {
+            res.setEncoding('utf8');
+            let rawData = '';
+            res.on('data', (chunk) => { rawData += chunk; });
+            res.on('end', () => {
+                try {
+                    const parsedData = JSON.parse(rawData);
+                    let allData = parsedData.data;
+                    let avg = 0;
+                    async function getAllPages() {
+                        for (let i = 1; i < parsedData.total_pages; i++) {
+                            await getData(i)
+                                .then(res => {
+                                    for (let j = 0; j < res.length; j++) {
+                                        allData.push(res[j]);
+                                    }
+                                })
+                                .catch(err => console.log(err));
+                        }
+                        await getAvg(allData)
+                            .then(res => {
+                                avg = res / parsedData.total;
+                            });
+                        const aboveAvgRecords = allData.filter(record => {
+                            if (convertDollar(record.amount) > avg) return true;
+                        });
+                        const outArr = [];
+                        aboveAvgRecords.forEach(record => {
+                            outArr.push(record.id);
+                        });
+                        return outArr;
+                    }
+                    getAllPages()
+                        .then(res => {
+                            cb(res);
+                            return res;
+                        });
+                } catch (e) {
+                    console.error(e.message);
+                }
+            });
+        }).end();
+    }
+    return await collectAllData((res) => res.length ? res : [-1]);
+}
+
+async function main() {
+    const results = await getUserTransaction(4, 'debit', '02-2019');
+    console.log("results", results);
+}
+main();

@@ -1,0 +1,23 @@
+@import '../../App.scss';
+
+#modal {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(34, 4, 105, 0.472);
+    transition: 1s;
+    .innerModalContent {
+        position: absolute;
+        width: 50vw;
+        min-height: 50vh;
+        left: 25%;
+        top: 25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $white;
+        @include border;
+    }
+}

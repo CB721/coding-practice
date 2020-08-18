@@ -1,0 +1,63 @@
+@import '../../App.scss';
+
+.list-item {
+    height: 12vh;
+    line-height: 3vh;
+    margin-bottom: 2vh;
+    color: $white;
+    @include border;
+    .row {
+        justify-content: center;
+        &.head {
+            justify-content: space-evenly;
+        }
+        &.elapsed-time {
+            justify-content: flex-end;
+        }
+        h3 {
+            font-size: 1.5rem;
+        }
+    }
+    &:hover {
+        cursor: pointer;
+        .trash-icon {
+            background-color: $grey;
+            fill: $black;
+        }
+    }
+    .trash-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        padding: 8px;
+        border-radius: 50%;
+        fill: transparent;
+        &:hover {
+            background-color: $white;
+        }
+    }
+    .company-icon {
+        height: 1.5rem;
+        width: 1.5rem;
+        font-size: 1rem;
+        line-height: 1.5rem;
+        padding: 8px;
+        border-radius: 50%;
+    }
+}
+
+.delete-form {
+    width: 75%;
+    padding: 12.5%;
+    color: $black;
+    .row {
+        &.head {
+            justify-content: space-evenly;
+            .button {
+                margin: 0 2.5%;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+    }
+}
