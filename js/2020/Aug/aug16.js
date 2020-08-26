@@ -29,88 +29,95 @@ function oddNumbers(l, r) {
 
 const https = require('https');
 
-async function getUserTransaction(uid, txnType, monthYear) {
-    function getData(page) {
-        return new Promise((resolve, reject) => {
-            https.get(`https://jsonmock.hackerrank.com/api/transactions/search?txnType=${txnType}&userId=${uid}&monthYear=${monthYear}&page=${page}`, (res) => {
-                res.setEncoding('utf8');
-                let rawData = '';
-                res.on('data', (chunk) => { rawData += chunk; });
-                res.on('end', () => {
-                    try {
-                        const parsedData = JSON.parse(rawData);
-                        resolve(parsedData.data);
-                    } catch (e) {
-                        reject(e.message);
-                    }
-                });
-            }).end();
-        })
-    }
-    function getAvg(data) {
-        return new Promise((resolve, reject) => {
-            let totalAmount = 0;
-            let recordCount = 0;
-            data.forEach(record => {
-                recordCount++;
-                let tempAmount = convertDollar(record.amount);
-                totalAmount += tempAmount;
-            });
-            resolve(parseFloat(totalAmount.toFixed(2)));
-        })
-    }
-    function convertDollar(amount) {
-        return parseFloat(amount.replace("$", "").replace(",", ""));
-    }
-    async function collectAllData(cb) {
-        await https.get(`https://jsonmock.hackerrank.com/api/transactions/search?txnType=${txnType}&userId=${uid}&monthYear=${monthYear}`, (res) => {
+function getData(uid, txnType, monthYear, page) {
+    return new Promise((resolve, reject) => {
+        https.get(`https://jsonmock.hackerrank.com/api/transactions/search?txnType=${txnType}&userId=${uid}&monthYear=${monthYear}&page=${page}`, (res) => {
             res.setEncoding('utf8');
             let rawData = '';
             res.on('data', (chunk) => { rawData += chunk; });
             res.on('end', () => {
                 try {
                     const parsedData = JSON.parse(rawData);
-                    let allData = parsedData.data;
-                    let avg = 0;
-                    async function getAllPages() {
-                        for (let i = 1; i < parsedData.total_pages; i++) {
-                            await getData(i)
-                                .then(res => {
-                                    for (let j = 0; j < res.length; j++) {
-                                        allData.push(res[j]);
-                                    }
-                                })
-                                .catch(err => console.log(err));
-                        }
-                        await getAvg(allData)
-                            .then(res => {
-                                avg = res / parsedData.total;
-                            });
-                        const aboveAvgRecords = allData.filter(record => {
-                            if (convertDollar(record.amount) > avg) return true;
-                        });
-                        const outArr = [];
-                        aboveAvgRecords.forEach(record => {
-                            outArr.push(record.id);
-                        });
-                        return outArr;
-                    }
-                    getAllPages()
-                        .then(res => {
-                            cb(res);
-                            return res;
-                        });
+                    resolve(parsedData.data);
                 } catch (e) {
-                    console.error(e.message);
+                    reject(e.message);
                 }
             });
         }).end();
-    }
-    return await collectAllData((res) => res.length ? res : [-1]);
+    })
+}
+function getAvg(data) {
+    return new Promise((resolve, reject) => {
+        const reducer = (accumulator, item) => {
+            return accumulator + convertDollar(item.amount);
+        };
+        const total = data.reduce(reducer, 0);
+        resolve(total);
+    })
+}
+function convertDollar(amount) {
+    return parseFloat(amount.replace("$", "").replace(",", ""));
+}
+async function collectAllData(uid, txnType, monthYear, cb) {
+    await https.get(`https://jsonmock.hackerrank.com/api/transactions/search?txnType=${txnType}&userId=${uid}&monthYear=${monthYear}`, (res) => {
+        res.setEncoding('utf8');
+        let rawData = '';
+        res.on('data', (chunk) => { rawData += chunk; });
+        res.on('end', () => {
+            try {
+                const parsedData = JSON.parse(rawData);
+                let avg = 0;
+                const promises = [];
+                async function getAllPages() {
+                    for (let i = 1; i <= parsedData.total_pages; i++) {
+                        promises.push(getData(uid, txnType, monthYear, i));
+                    }
+                    const allData = await Promise.all(promises);
+                    Object.defineProperty(Array.prototype, 'flat', {
+                        value: function (depth = 1) {
+                            return this.reduce(function (flat, toFlatten) {
+                                return flat.concat((Array.isArray(toFlatten) && (depth > 1)) ? toFlatten.flat(depth - 1) : toFlatten);
+                            }, []);
+                        }
+                    });
+                    const flatData = allData.flat();
+                    await getAvg(flatData)
+                        .then(res => {
+                            avg = res / parsedData.total;
+                        });
+                    const aboveAvgRecords = flatData.filter(record => {
+                        if (convertDollar(record.amount) > avg) return true;
+                    });
+                    const outArr = [];
+                    aboveAvgRecords.forEach(record => {
+                        if (outArr.indexOf(record.id) < 0) {
+                            outArr.push(record.id);
+                        }
+                    });
+                    return outArr;
+                }
+                getAllPages()
+                    .then(res => {
+                        cb(res);
+                        return res;
+                    });
+            } catch (e) {
+                console.error(e.message);
+            }
+        });
+    }).end();
+}
+
+function getUserTransaction(uid, txnType, monthYear) {
+    return new Promise((resolve, reject) => {
+        collectAllData(uid, txnType, monthYear, (res) => {
+            resolve(res.length ? res : [-1])
+        });
+    })
 }
 
 async function main() {
     const results = await getUserTransaction(4, 'debit', '02-2019');
-    console.log("results", results);
+    await console.log("results", results);
 }
 main();
