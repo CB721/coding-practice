@@ -84,6 +84,50 @@ var longestCommonPrefix = function (strs) {
     return tempPre.length ? tempPre.join("") : "";
 };
 
-console.log(longestCommonPrefix(["flower", "flow", "flight"])) // "fl"
-console.log(longestCommonPrefix(["dog", "racecar", "car"])) // ""
-console.log(longestCommonPrefix([])) // ""
+// console.log(longestCommonPrefix(["flower", "flow", "flight"])) // "fl"
+// console.log(longestCommonPrefix(["dog", "racecar", "car"])) // ""
+// console.log(longestCommonPrefix([])) // ""
+
+
+
+// Merge two sorted linked lists and return it as a new sorted list. The new list should be made by splicing together the nodes of the first two lists.
+
+function ListNode(val, next) {
+    this.val = (val === undefined ? 0 : val)
+    this.next = (next === undefined ? null : next)
+}
+
+var mergeTwoLists = function (l1, l2) {
+    if (!l1 && l2) return l2;
+    if (!l2 && l1) return l1;
+    if (!l1 && !l2) return null;
+
+    let head = new ListNode(null);
+    let pointer = head;
+    while (l1 && l2) {
+        let tempNode;
+        if (l2.val < l1.val) {
+            tempNode = new ListNode(l2.val);
+            pointer.next = l2;
+            l2 = l2.next;
+        } else {
+            tempNode = new ListNode(l1.val);
+            pointer.next = l1;
+            l1 = l1.next;
+        }
+        pointer = pointer.next;
+    }
+    if (l1) {
+        pointer.next = l1;
+    }
+    if (l2) {
+        pointer.next = l2;
+    }
+    return head.next ? head.next : head;
+};
+let l1Nodes = new ListNode(1, new ListNode(2, new ListNode(4)));
+let l2Nodes = new ListNode(1, new ListNode(3, new ListNode(4)));
+
+
+// console.log(mergeTwoLists(l1Nodes, l2Nodes).next.next.next) // [1, 1, 2, 3, 4, 4]
+console.log(mergeTwoLists()) // [1, 1, 2, 3, 4, 4]
