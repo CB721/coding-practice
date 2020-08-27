@@ -21,8 +21,44 @@ var lengthOfLongestSubstring = function (s) {
     return length;
 };
 
-console.log(lengthOfLongestSubstring('abcabcbb')) // 3
-console.log(lengthOfLongestSubstring('bbbbb')) // 1
-console.log(lengthOfLongestSubstring('pwwkew')) // 3
-console.log(lengthOfLongestSubstring('aab')) // 2
-console.log(lengthOfLongestSubstring('dvdf')) // 3
+// console.log(lengthOfLongestSubstring('abcabcbb')) // 3
+// console.log(lengthOfLongestSubstring('bbbbb')) // 1
+// console.log(lengthOfLongestSubstring('pwwkew')) // 3
+// console.log(lengthOfLongestSubstring('aab')) // 2
+// console.log(lengthOfLongestSubstring('dvdf')) // 3
+
+
+// Given two sorted arrays nums1 and nums2 of size m and n respectively.
+
+// Return the median of the two sorted arrays.
+
+var findMedianSortedArrays = function (nums1, nums2) {
+    if (!nums1.length && !nums2.length) return 0;
+    const mergedArr = [];
+    if (nums2.length > nums1.length) {
+        let tempNum2 = nums2;
+        nums2 = nums1;
+        nums1 = tempNum2;
+    }
+    while (nums1.length) {
+        mergedArr.push(nums1.shift());
+        if (nums2.length) {
+            mergedArr.push(nums2.shift());
+        }
+    }
+    mergedArr.sort((a, b) => {
+        return a - b;
+    });
+    const middle = Math.floor(mergedArr.length / 2);
+    if (mergedArr.length % 2 === 0) {
+        return (mergedArr[middle] + mergedArr[middle - 1]) / 2;
+    }
+    
+    return mergedArr[middle];
+};
+
+// console.log(findMedianSortedArrays([2], [1,3])); // 2.00000
+// console.log(findMedianSortedArrays([1, 4], [3, 2])); // 2.50000
+// console.log(findMedianSortedArrays([0, 0], [0, 0])); // 0.00000
+// console.log(findMedianSortedArrays([], [1])); // 1.00000
+console.log(findMedianSortedArrays([3], [-1, -2])); // -1.00000
