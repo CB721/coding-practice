@@ -53,7 +53,7 @@ var findMedianSortedArrays = function (nums1, nums2) {
     if (mergedArr.length % 2 === 0) {
         return (mergedArr[middle] + mergedArr[middle - 1]) / 2;
     }
-    
+
     return mergedArr[middle];
 };
 
@@ -61,4 +61,29 @@ var findMedianSortedArrays = function (nums1, nums2) {
 // console.log(findMedianSortedArrays([1, 4], [3, 2])); // 2.50000
 // console.log(findMedianSortedArrays([0, 0], [0, 0])); // 0.00000
 // console.log(findMedianSortedArrays([], [1])); // 1.00000
-console.log(findMedianSortedArrays([3], [-1, -2])); // -1.00000
+// console.log(findMedianSortedArrays([3], [-1, -2])); // -1.00000
+
+
+// Write a function to find the longest common prefix string amongst an array of strings.
+// If there is no common prefix, return an empty string "".
+// All given inputs are in lowercase letters a-z.
+
+var longestCommonPrefix = function (strs) {
+    if (strs.length === 1) return strs[0];
+    if (!strs[0]) return "";
+    let tempPre = strs[0].split("");
+    for (let i = 1; i < strs.length; i++) {
+        for (let j = 0; j < tempPre.length; j++) {
+            if (tempPre[j] !== strs[i][j]) {
+                tempPre = tempPre.splice(0, j);
+                break;
+            }
+        }
+
+    }
+    return tempPre.length ? tempPre.join("") : "";
+};
+
+console.log(longestCommonPrefix(["flower", "flow", "flight"])) // "fl"
+console.log(longestCommonPrefix(["dog", "racecar", "car"])) // ""
+console.log(longestCommonPrefix([])) // ""
