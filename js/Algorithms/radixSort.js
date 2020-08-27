@@ -37,6 +37,7 @@ function radixSort(arr) {
     // loop for the remainder of the iteration count
     // since the numbers have already been placed in their first slot
     // we can start on the second iteration
+    let negativeNums = [];
     for (let i = 1; i <= iterationCount; i++) {
         // empty output array
         outArr = [];
@@ -57,13 +58,28 @@ function radixSort(arr) {
             // get the index based on the current value of i
             // if it is undefined, add it to the zero index
             let arrIndex = numStr[numStr.length - 1 - i] || 0;
-            // push number into array of arrays
-            arrOfArrs[arrIndex].push(parseInt(num));
+            // if there is a negative sign, add the number to the zero index
+            if (arrIndex === "-") {
+                // push number into array of arrays
+                negativeNums.push(parseInt(num));
+            } else {
+                // push number into array of arrays
+                arrOfArrs[arrIndex].push(parseInt(num));
+            }
         });
+    }
+    if (negativeNums.length) {
+        for (let i = 0; i < negativeNums.length; i++) {
+            negativeNums[i] = parseInt(negativeNums[i].toString().substring(1));
+        }
+        let sortedNegativeNums = radixSort(negativeNums);
+        for (let i = 0; i < sortedNegativeNums.length; i++) {
+            outArr = [-Math.abs(sortedNegativeNums[i]), ...outArr];
+        }
     }
     return outArr;
 }
 
-console.log(radixSort([397, 12, 34, 4, 11, 414])) // 4, 11, 12, 34, 398, 414
-console.log(radixSort([1970, 1, 0, 5342])) // 4, 11, 12, 34, 398, 414
-console.log(radixSort([1970, 1, 0, 5342])) // 4, 11, 12, 34, 398, 414
+// console.log(radixSort([397, 12, 34, 4, 11, 414])) // [ 4, 11, 12, 34, 397, 414 ]
+// console.log(radixSort([1970, 1, 0, 5342])) // [ 0, 1, 1970, 5342 ]
+console.log(radixSort([-1970, 1, 0, 5342, -23, -1])) // [ -1970, -23, -1, 0, 1, 5342 ]
