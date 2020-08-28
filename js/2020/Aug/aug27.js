@@ -176,8 +176,48 @@ let list1 = new ListNode(1, new ListNode(4, new ListNode(5)));
 let list2 = new ListNode(1, new ListNode(3, new ListNode(4)));
 let list3 = new ListNode(2, new ListNode(6));
 
-console.log(mergeKLists([list1, list2, list3])); // [1,1,2,3,4,4,5,6]
-console.log(mergeKLists()); // []
-console.log(mergeKLists([new ListNode(null)])); // []
-console.log(mergeKLists([new ListNode(null), new ListNode(1)])); // [1]
-console.log(mergeKLists([new ListNode(1), new ListNode(null), new ListNode(null)])); // [1]
+// console.log(mergeKLists([list1, list2, list3])); // [1,1,2,3,4,4,5,6]
+// console.log(mergeKLists()); // []
+// console.log(mergeKLists([new ListNode(null)])); // []
+// console.log(mergeKLists([new ListNode(null), new ListNode(1)])); // [1]
+// console.log(mergeKLists([new ListNode(1), new ListNode(null), new ListNode(null)])); // [1]
+
+
+function TreeNode(val, left, right) {
+    this.val = (val === undefined ? 0 : val)
+    this.left = (left === undefined ? null : left)
+    this.right = (right === undefined ? null : right)
+}
+
+// Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+var levelOrder = function (root) {
+    const tempArr = [root, 'stop'];
+    const outputArr = [];
+    let level = [];
+    while (tempArr.length > 1) {
+        let currNode = tempArr.shift();
+        if (currNode === 'stop') {
+            tempArr.push('stop');
+            outputArr.push(level);
+            level = [];
+        } else if (currNode) {
+            if (currNode.left) {
+                tempArr.push(currNode.left);
+            }
+            if (currNode.right) {
+                tempArr.push(currNode.right);
+            }
+            level.push(currNode.val);
+        }
+    }
+    if (Number.isInteger(level[0])) {
+        outputArr.push(level);
+    }
+    return outputArr;
+};
+
+const rootNode = new TreeNode(3, new TreeNode(9), new TreeNode(20, new TreeNode(15), new TreeNode(7)));
+
+// console.log(levelOrder(rootNode)); // [ [ 3 ], [ 9, 20 ], [ 15, 7 ] ]
+console.log(levelOrder(new TreeNode(null))); // []
