@@ -105,13 +105,10 @@ var mergeTwoLists = function (l1, l2) {
     let head = new ListNode(null);
     let pointer = head;
     while (l1 && l2) {
-        let tempNode;
         if (l2.val < l1.val) {
-            tempNode = new ListNode(l2.val);
             pointer.next = l2;
             l2 = l2.next;
         } else {
-            tempNode = new ListNode(l1.val);
             pointer.next = l1;
             l1 = l1.next;
         }
@@ -129,5 +126,58 @@ let l1Nodes = new ListNode(1, new ListNode(2, new ListNode(4)));
 let l2Nodes = new ListNode(1, new ListNode(3, new ListNode(4)));
 
 
-// console.log(mergeTwoLists(l1Nodes, l2Nodes).next.next.next) // [1, 1, 2, 3, 4, 4]
-console.log(mergeTwoLists()) // [1, 1, 2, 3, 4, 4]
+// console.log(mergeTwoLists(l1Nodes, l2Nodes)) // [1, 1, 2, 3, 4, 4]
+// console.log(mergeTwoLists()) // null
+
+
+// Given an array of linked-lists lists, each linked list is sorted in ascending order.
+
+// Merge all the linked-lists into one sort linked-list and return it.
+
+var mergeKLists = function (lists) {
+    let head = new ListNode(null, null);
+    if (!lists || !lists.length) return null;
+    if (lists.length === 1) return lists[0];
+    if (lists[0] && lists[0].val) {
+        head.next = lists.shift();
+    } else {
+        lists.shift();
+    }
+    if (lists.length) {
+        while (lists.length) {
+            let tempNode = lists[0];
+            let tempTail = lists[0] ? lists[0].next : null;
+            tempNode ? tempNode.next = null : null;
+            lists[0] = tempTail;
+            if (!lists[0]) lists.shift();
+            let pointer = head;
+            while (pointer) {
+                if (!pointer.next) {
+                    pointer.next = tempNode;
+                    break;
+                } else if (pointer.next.val >= tempNode.val) {
+                    let tail = pointer.next;
+                    tempNode.next = tail;
+                    pointer.next = tempNode;
+                    break;
+                }
+                pointer = pointer.next;
+            }
+        }
+    }
+    while (head && head.next && !head.val) {
+        head = head.next
+    }
+    if (!head.val && !head.next) return null;
+    return head;
+};
+
+let list1 = new ListNode(1, new ListNode(4, new ListNode(5)));
+let list2 = new ListNode(1, new ListNode(3, new ListNode(4)));
+let list3 = new ListNode(2, new ListNode(6));
+
+console.log(mergeKLists([list1, list2, list3])); // [1,1,2,3,4,4,5,6]
+console.log(mergeKLists()); // []
+console.log(mergeKLists([new ListNode(null)])); // []
+console.log(mergeKLists([new ListNode(null), new ListNode(1)])); // [1]
+console.log(mergeKLists([new ListNode(1), new ListNode(null), new ListNode(null)])); // [1]
