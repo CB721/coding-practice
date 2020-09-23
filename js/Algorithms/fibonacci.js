@@ -53,11 +53,11 @@ function memoize(fn) {
     // store previous arguments and results
     const cache = {};
     // unknown how many arguments will be passed into function
-    return function(...args) {
+    return function (...args) {
         // check if this function has been called with this set of arguments before
         if (cache[args]) {
             return cache[args];
-        // if not, that means the function has not been called with this set of arguments before
+            // if not, that means the function has not been called with this set of arguments before
         } else {
             // call original function aka 'slowFib' and save result to a variable
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply
@@ -73,7 +73,7 @@ function slowFib(n) {
     if (n < 2) {
         return n;
     }
-    return (slowFib(n -1) + slowFib(n -2));
+    return (slowFib(n - 1) + slowFib(n - 2));
 }
 
 const fib = memoize(slowFib)
@@ -84,3 +84,12 @@ console.log(fib(9));
 // 34
 console.log(fib(0));
 // 0
+
+const fibonacci = n => {
+    return Array.from({ length: n }).reduce(
+        (acc, val, i) => acc.concat(i > 1 ? acc[i - 1] + acc[i - 2] : i),
+        []
+    );
+}
+
+console.log(fibonacci(6)); // [ 0, 1, 1, 2, 3, 5 ]
