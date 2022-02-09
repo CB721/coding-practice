@@ -36,7 +36,7 @@ student_name LIKE '%nd';
 
 -- Write a query to display the name of those students that have the letters "ae" or "ph" in their name and are NOT 19 years old.
 SELECT * FROM students 
-WHERE (student_name LIKE '%ph%' OR student_name LIKE '%ph%')
+WHERE (student_name LIKE '%ae%' OR student_name LIKE '%ph%')
 AND age <> 19;
 
 -- Write a query that lists the names of students sorted by their age from largest to smallest. 

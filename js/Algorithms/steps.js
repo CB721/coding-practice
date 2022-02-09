@@ -47,7 +47,7 @@ function steps(n, row = 0, step = "") {
     steps(n, row, step);
 }
 
-steps(2);
+steps(3);
 // '# '
 // '##'
 

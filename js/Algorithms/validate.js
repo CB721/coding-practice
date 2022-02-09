@@ -5,6 +5,9 @@
 const { Node } = require("../DataStructures/binaryTree");
 
 function validate(node, max = null, min = null) {
+    console.log("node: ", node);
+    console.log("max: ", max);
+    console.log("min: ", min);
     if (max !== null && node.data > max) {
         return false;
     }

@@ -1,5 +1,5 @@
 // implement a Node class to create a binary search tree
-// the constructo should initialize values 'data', 'left' and 'right'
+// the constructor should initialize values 'data', 'left' and 'right'
 // implement the 'insert' method for the node class
 // the insert should accept an argument 'data' and then insert a new node at the appropriate location in the tree
 // implement the 'contains' method for the node class
