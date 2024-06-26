@@ -79,6 +79,19 @@ var scoreOfString = function(s) {
     }, 0);
 };
 
-console.log(scoreOfString('abc')); // 2
-console.log(scoreOfString('aaaa')); // 0
-console.log(scoreOfString('hello')) // 13
+// console.log(scoreOfString('abc')); // 2
+// console.log(scoreOfString('aaaa')); // 0
+// console.log(scoreOfString('hello')) // 13
+
+// Add Two Promises
+// Given two promises promise1 and promise2, return a new promise. promise1 and promise2 will both resolve with a number. The returned promise should resolve with the sum of the two numbers.
+
+var addTwoPromises = async function(...args) {
+  const [val1, val2] = await Promise.all(args);
+
+  return val1 + val2;
+};
+
+// addTwoPromises(Promise.resolve(3), Promise.resolve(4)).then((res) => {
+//   console.log(res); // 7
+// });
