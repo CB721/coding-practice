@@ -55,3 +55,30 @@ var argumentsLength = function (...args) {
 // console.log(argumentsLength(1, 2, 3)); // 3
 // console.log(argumentsLength(1, 2, null, 10, 5)); // 5
 // console.log(argumentsLength('foo', { bar: 'rab' }, 'baz', 'bin')); // 4
+
+// Score of a String
+// You are given a string s. The score of a string is defined as the sum of the absolute difference between the ASCII values of adjacent characters.
+
+// Return the score of s.
+// s will have at least two characters.
+var scoreOfString = function(s) {
+    // let total = Math.abs(s.charCodeAt(0) - s.charCodeAt(1));
+
+    // for (let i = 1; i < s.length - 1; i++) {
+    //   total += Math.abs(s.charCodeAt(i) - s.charCodeAt(i + 1));
+    // }
+
+    // return total;
+
+    return [...s].reduce((acc, curr, i, arr) => {
+      if (i < arr.length - 1) {
+        acc += Math.abs(curr.charCodeAt(0) - arr[i + 1].charCodeAt(0));
+      
+      }
+      return acc;
+    }, 0);
+};
+
+console.log(scoreOfString('abc')); // 2
+console.log(scoreOfString('aaaa')); // 0
+console.log(scoreOfString('hello')) // 13
