@@ -213,32 +213,83 @@ var divide = function (dividend, divisor) {
   dividend = Math.abs(dividend);
   divisor = Math.abs(divisor);
 
-  let val = 0;
+  let totalTimesDivided = 0;
 
   while (divisor <= dividend) {
     let value = divisor;
     let timesDivided = 1;
+
     while (value + value <= dividend) {
       value += value;
       timesDivided += timesDivided;
     }
+
     dividend = dividend - value;
-    val += timesDivided;
+    totalTimesDivided += timesDivided;
   }
 
-  if (val > ((2 ** 31) - 1)) {
-    return shouldBeNegative ? -(2 ** 31) : 2 ** 31 - 1
+  if (totalTimesDivided > ((2 ** 31) - 1)) {
+    return shouldBeNegative ? -(2 ** 31) : 2 ** 31 - 1;
   }
-  return shouldBeNegative ? -val : val
+
+  return shouldBeNegative ? -totalTimesDivided : totalTimesDivided;
 };
 
-console.log(divide(10, 3)); // 3
-console.log(divide(7, -3)); // -2
-console.log(divide(0, 1)); // 0
-console.log(divide(-1, 1)); // -1
-console.log(divide(1, 2)); // 0
-console.log(divide(-2147483648, -1)); // 2147483647
-console.log(divide(-2147483648, 1)); // -2147483648
-console.log(divide(2147483647, 2)); // 1073741823
-console.log(divide(-2147483648, 4)); // -536870912
-console.log(divide(-2147483648, 2)); // -1073741824
+// console.log(divide(10, 3)); // 3
+// console.log(divide(7, -3)); // -2
+// console.log(divide(0, 1)); // 0
+// console.log(divide(-1, 1)); // -1
+// console.log(divide(1, 2)); // 0
+// console.log(divide(-2147483648, -1)); // 2147483647
+// console.log(divide(-2147483648, 1)); // -2147483648
+// console.log(divide(2147483647, 2)); // 1073741823
+// console.log(divide(-2147483648, 4)); // -536870912
+// console.log(divide(-2147483648, 2)); // -1073741824
+
+// Remove element
+// Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
+
+// Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
+
+// Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+// Return k.
+
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement = function (nums, val) {
+  // let occurrencesOfVal = 0;
+
+  // for (let i = 0; i < nums.length; i++) {
+  //   console.log('-------------');
+  //   console.log('nums: ', nums);
+  //   console.log('nums[i]: ', nums[i]);
+  //   if (nums[i] === null) {
+  //     break;
+  //   }
+
+  //   console.log('nums[i] === val: ', nums[i] === val);
+  //   while (nums[i] === val) {
+  //     console.log('***');
+  //     nums.splice(i, 1);
+  //     nums.push(null);
+
+  //     occurrencesOfVal++;
+  //   }
+  // }
+  // console.log('final nums: ', nums);
+  // return nums.length - occurrencesOfVal;
+
+  for (let i = nums.length; i >= 0; i--) {
+    if (nums[i] === val) {
+      nums.splice(i, 1);
+    }
+  }
+
+  return nums.length;
+};
+
+console.log(removeElement([3, 2, 2, 3], 3)) // 2
+console.log(removeElement([0, 1, 2, 2, 3, 0, 4, 2], 2)) // 5
