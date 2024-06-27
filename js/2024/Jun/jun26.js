@@ -151,7 +151,7 @@ var subsets = function (nums) {
 // Input: nums = [1,1,2]
 // Output: 2, nums = [1,2,_]
 
-var removeDuplicates = function(nums) {
+var removeDuplicates = function (nums) {
   let uniqueCount = 1;
 
   for (let i = 0; i < nums.length; i++) {
@@ -170,4 +170,75 @@ var removeDuplicates = function(nums) {
 };
 
 // console.log(removeDuplicates([1, 1, 2])); // 2
-console.log(removeDuplicates([0,0,1,1,1,2,2,3,3,4])); // 5
+// console.log(removeDuplicates([0,0,1,1,1,2,2,3,3,4])); // 5
+
+// Divide Two Integers
+// Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator.
+
+// The integer division should truncate toward zero, which means losing its fractional part. For example, 8.345 would be truncated to 8, and -2.7335 would be truncated to -2.
+
+// Return the quotient after dividing dividend by divisor.
+
+// Note: Assume we are dealing with an environment that could only store integers within the 32-bit signed integer range: [−231, 231 − 1]. For this problem, if the quotient is strictly greater than 231 - 1, then return 231 - 1, and if the quotient is strictly less than -231, then return -231.
+
+var divide = function (dividend, divisor) {
+  // passed 991 / 994 test cases, time limit exceeded for the rest
+  // let y = Math.abs(dividend);
+  // const absDivisor = Math.abs(divisor);
+
+  // if (dividend === 0 || absDivisor > y) return 0;
+
+  // let x = 0;
+  // const upperLimit = Math.pow(2, 31) - 1;
+  // const lowerLimit = Math.pow(-2, 31);
+
+  // if (absDivisor !== 1 && dividend <= upperLimit && dividend >= lowerLimit) {
+  //     while (y >= absDivisor) {
+  //         y -= absDivisor;
+  //         x++;
+  //     }
+  // } else {
+  //     x = y;
+  // }
+
+  // const shouldBeNegative = (dividend < 0) !== (divisor < 0);
+
+  // if (x >= upperLimit) {
+  //     x = shouldBeNegative ? Math.abs(lowerLimit) : upperLimit;
+  // }
+
+  // return shouldBeNegative ? -(x) : x;
+
+  const shouldBeNegative = Math.sign(divisor) !== Math.sign(dividend);
+  dividend = Math.abs(dividend);
+  divisor = Math.abs(divisor);
+
+  let val = 0;
+
+  while (divisor <= dividend) {
+    let value = divisor;
+    let timesDivided = 1;
+    while (value + value <= dividend) {
+      value += value;
+      timesDivided += timesDivided;
+    }
+    dividend = dividend - value;
+    val += timesDivided;
+  }
+
+  if (val > ((2 ** 31) - 1)) {
+    return shouldBeNegative ? -(2 ** 31) : 2 ** 31 - 1
+  }
+  return shouldBeNegative ? -val : val
+};
+
+console.log(divide(10, 3)); // 3
+console.log(divide(7, -3)); // -2
+console.log(divide(0, 1)); // 0
+console.log(divide(-1, 1)); // -1
+console.log(divide(1, 2)); // 0
+console.log(divide(-2147483648, -1)); // 2147483647
+console.log(divide(-2147483648, 1)); // -2147483648
+console.log(divide(2147483647, 2)); // 1073741823
+console.log(divide(-2147483648, 4)); // -536870912
+console.log(divide(-2147483648, 2)); // -1073741824
