@@ -389,7 +389,7 @@ var expect = function (val) {
     }
   }
   function notToBe(testVal) {
-    if(val !== testVal) {
+    if (val !== testVal) {
       return true;
     } else {
       throw new Error("Equal")
@@ -406,3 +406,179 @@ var expect = function (val) {
 // console.log(expect(6).notToBe(5)) // true
 // console.log(expect(5).toBe(null)) // Error("Not Equal")
 // console.log(expect(null).notToBe(null)) // Error("Equal")
+
+// Cache with time limit
+// Write a class that allows getting and setting key-value pairs, however a time until expiration is associated with each key.
+
+// The class has three public methods:
+
+// set(key, value, duration): accepts an integer key, an integer value, and a duration in milliseconds. Once the duration has elapsed, the key should be inaccessible. The method should return true if the same un-expired key already exists and false otherwise. Both the value and duration should be overwritten if the key already exists.
+
+// get(key): if an un-expired key exists, it should return the associated value. Otherwise it should return -1.
+
+// count(): returns the count of un-expired keys.
+
+// var TimeLimitedCache = function () {
+//   this.items = {}
+// };
+
+// /** 
+// * @param {number} key
+// * @param {number} value
+// * @param {number} duration time until expiration in ms
+// * @return {boolean} if un-expired key already existed
+// */
+// TimeLimitedCache.prototype.set = function (key, value, duration) {
+//   const existingItem = this.get(key);
+//   let keyValExists = false;
+
+//   if (existingItem && existingItem !== -1) {
+//     keyValExists = true;
+//   }
+
+//   this.items = {
+//     ...this.items,
+//     [key]: {
+//       value,
+//       duration,
+//       start: new Date().getMilliseconds(),
+//     }
+//   }
+
+//   return keyValExists;
+// };
+
+// /** 
+// * @param {number} key
+// * @return {number} value associated with key
+// */
+// TimeLimitedCache.prototype.get = function (key) {
+//   const currTime = new Date().getMilliseconds();
+//   const item = this.items[key];
+
+//   if (item && currTime - item.start <= item.duration) {
+//     return item.value;
+//   } else {
+//     return -1;
+//   }
+// };
+
+// /** 
+// * @return {number} count of non-expired keys
+// */
+// TimeLimitedCache.prototype.count = function () {
+//   const currTime = new Date().getMilliseconds();
+
+//   let count = 0;
+
+//   Object.keys(this.items).forEach((key) => {
+//     const item = this.items[key];
+
+//     if (currTime - item.start <= item.duration) {
+//       count++;
+//     }
+//   });
+
+//   return count;
+// };
+
+var TimeLimitedCache = function() {
+  this.cache = {};
+};
+
+TimeLimitedCache.prototype.set = function(key, value, duration) {
+if (this.cache[key] && this.cache[key].timer) {
+  clearTimeout(this.cache[key].timer);
+  this.cache[key].value = value;
+  this.cache[key].timer = setTimeout(() => {
+    this.remove(key);
+  }, duration);
+  return true;
+} else {
+  this.cache[key] = {
+    value: value,
+    timer: setTimeout(() => {
+      this.remove(key);
+    }, duration)
+  };
+  return false;
+}
+};
+
+/** 
+* @param {number} key
+* @return {number} value associated with key
+*/
+TimeLimitedCache.prototype.get = function(key) {
+if (this.cache[key] && this.cache[key].timer) {
+  return this.cache[key].value;
+} else {
+  return -1;
+}
+};
+
+TimeLimitedCache.prototype.count = function() {
+let count = 0;
+for (const key in this.cache) {
+  if (this.cache[key].timer) {
+    count++;
+  }
+}
+return count;
+};
+
+TimeLimitedCache.prototype.remove = function(key) {
+delete this.cache[key];
+};
+
+const cache = new TimeLimitedCache();
+
+// setTimeout(() => {
+//   const val = cache.set(1, 42, 50);
+//   console.log('key exists? ', val); // false
+// }, 0);
+// setTimeout(() => {
+//   const val = cache.set(1, 50, 100);
+//   console.log('key exists? ', val); // true
+// }, 40);
+// setTimeout(() => {
+//   const val = cache.get(1);
+//   console.log('val ', val); // 50
+// }, 50);
+// setTimeout(() => {
+//   const val = cache.get(1);
+//   console.log('val ', val); // 50
+// }, 120);
+// setTimeout(() => {
+//   const val = cache.get(1);
+//   console.log('val ', val); // -1
+// }, 200);
+// setTimeout(() => {
+//   const count = cache.count();
+//   console.log('count ', count); // 0
+// }, 250);
+
+setTimeout(() => {
+  const val = cache.set(1, 2, 200);
+  console.log('key exists? ', val); // false
+}, 0);
+setTimeout(() => {
+  const val = cache.set(10, 20, 400);
+  console.log('key exists? ', val); // false
+}, 0);
+setTimeout(() => {
+  const count = cache.count();
+  console.log('count ', count); // 2
+}, 50);
+setTimeout(() => {
+  const count = cache.count();
+  console.log('count ', count); // 2
+}, 100);
+setTimeout(() => {
+  const count = cache.count();
+  console.log('count ', count); // 1
+}, 300);
+setTimeout(() => {
+  const count = cache.count();
+  console.log('count ', count); // 0
+}, 500);
