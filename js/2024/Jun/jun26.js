@@ -329,3 +329,43 @@ var searchInsert = function (nums, target) {
 // console.log(searchInsert([1, 3, 5, 6], 7)) // 4
 // console.log(searchInsert([1, 3, 5, 6], 0)) // 0
 // console.log(searchInsert([1], 1)) // 0
+
+// plus one
+// You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+// Increment the large integer by one and return the resulting array of digits.
+/**
+ * @param {number[]} digits
+ * @return {number[]}
+ */
+var plusOne = function (digits) {
+  // return (parseInt(digits.join('')) + 1).toString().split('').map((val) => parseInt(val));
+
+  // for (let i = digits.length - 1; i >= 0; i--) {
+  //   if (++digits[i] > 9) {
+  //     digits[i] = 0;
+  //   } else {
+  //     return digits;
+  //   }
+  // }
+
+  // digits.unshift(1);
+
+  // return digits;
+
+  const str = digits.join('')
+  let num = Number(str)
+  let n = num + 1
+  if (str.length >= 16) {
+    num = BigInt(str)
+    n = num + BigInt(1)
+  }
+  const s = n.toString();
+  const arr = s.split("")
+  return arr.map((val) => parseInt(val));
+};
+
+console.log(plusOne([1, 2, 3])) // [1, 2, 4]
+console.log(plusOne([4, 3, 2, 1])) // [4,3,2,2]
+console.log(plusOne([9])) // [1,0]
+console.log(plusOne([6, 1, 4, 5, 3, 9, 0, 1, 9, 5, 1, 8, 6, 7, 0, 5, 5, 4, 3])) // [6,1,4,5,3,9,0,1,9,5,1,8,6,7,0,5,5,4,4]
