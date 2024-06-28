@@ -87,3 +87,37 @@ Array.prototype.last = function () {
 // console.log([null, {}, 3].last()) // 3
 // console.log([1, 2, 3, 4].last()) // 4
 // console.log([1, 2, 3, null].last()) // null
+
+// Max total importance of roads
+// You are given an integer n denoting the number of cities in a country. The cities are numbered from 0 to n - 1.
+
+// You are also given a 2D integer array roads where roads[i] = [ai, bi] denotes that there exists a bidirectional road connecting cities ai and bi.
+
+// You need to assign each city with an integer value from 1 to n, where each value can only be used once. The importance of a road is then defined as the sum of the values of the two cities it connects.
+
+// Return the maximum total importance of all roads possible after assigning the values optimally.
+
+/**
+ * @param {number} n
+ * @param {number[][]} roads
+ * @return {number}
+ */
+var maximumImportance = function (n, roads) {
+  let maxImportance = 0;
+  let importance = 1;
+  let connections = new Array(n).fill(0);
+
+  for (const road of roads) {
+    connections[road[0]]++;
+    connections[road[1]]++;
+  }
+
+  connections.sort((a, b) => a - b);
+
+  for (const connection of connections) {
+    maxImportance += connection * importance++;
+  }
+  return maxImportance;
+};
+
+console.log(maximumImportance(5, [[0, 1], [1, 2], [2, 3], [0, 2], [1, 3], [2, 4]])) // 43
