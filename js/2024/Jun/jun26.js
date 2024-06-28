@@ -365,7 +365,44 @@ var plusOne = function (digits) {
   return arr.map((val) => parseInt(val));
 };
 
-console.log(plusOne([1, 2, 3])) // [1, 2, 4]
-console.log(plusOne([4, 3, 2, 1])) // [4,3,2,2]
-console.log(plusOne([9])) // [1,0]
-console.log(plusOne([6, 1, 4, 5, 3, 9, 0, 1, 9, 5, 1, 8, 6, 7, 0, 5, 5, 4, 3])) // [6,1,4,5,3,9,0,1,9,5,1,8,6,7,0,5,5,4,4]
+// console.log(plusOne([1, 2, 3])) // [1, 2, 4]
+// console.log(plusOne([4, 3, 2, 1])) // [4,3,2,2]
+// console.log(plusOne([9])) // [1,0]
+// console.log(plusOne([6, 1, 4, 5, 3, 9, 0, 1, 9, 5, 1, 8, 6, 7, 0, 5, 5, 4, 3])) // [6,1,4,5,3,9,0,1,9,5,1,8,6,7,0,5,5,4,4]
+
+// to be or not to be
+// Write a function expect that helps developers test their code. It should take in any value val and return an object with the following two functions.
+
+// toBe(val) accepts another value and returns true if the two values === each other. If they are not equal, it should throw an error "Not Equal".
+// notToBe(val) accepts another value and returns true if the two values !== each other. If they are equal, it should throw an error "Equal".
+
+/**
+ * @param {string} val
+ * @return {Object}
+ */
+var expect = function (val) {
+  function toBe(testVal) {
+    if (val === testVal) {
+      return true;
+    } else {
+      throw new Error("Not Equal")
+    }
+  }
+  function notToBe(testVal) {
+    if(val !== testVal) {
+      return true;
+    } else {
+      throw new Error("Equal")
+    }
+  }
+
+  return {
+    toBe,
+    notToBe,
+  }
+};
+
+// console.log(expect(5).toBe(5)) // true
+// console.log(expect(6).notToBe(5)) // true
+// console.log(expect(5).toBe(null)) // Error("Not Equal")
+// console.log(expect(null).notToBe(null)) // Error("Equal")
