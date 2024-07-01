@@ -79,21 +79,55 @@ var removeNthFromEnd = function(head, n) {
   return tempNode.next;
 };
 
-const a = new Node(1);
-const b = new Node(2);
-const c = new Node(3);
-const d = new Node(4);
-const e = new Node(5);
-a.next = b;
-b.next = c;
-c.next = d;
-d.next = e;
-console.log(removeNthFromEnd(a, 2)) // [1, 2, 3, 5]
+// const a = new Node(1);
+// const b = new Node(2);
+// const c = new Node(3);
+// const d = new Node(4);
+// const e = new Node(5);
+// a.next = b;
+// b.next = c;
+// c.next = d;
+// d.next = e;
+// console.log(removeNthFromEnd(a, 2)) // [1, 2, 3, 5]
 
-const f = new Node(1);
-console.log(removeNthFromEnd(f, 1)) // []
+// const f = new Node(1);
+// console.log(removeNthFromEnd(f, 1)) // []
 
-const g = new Node(1);
-const h = new Node(2);
-g.next = h;
-console.log(removeNthFromEnd(g, 1)) // [1]
+// const g = new Node(1);
+// const h = new Node(2);
+// g.next = h;
+// console.log(removeNthFromEnd(g, 1)) // [1]
+
+// container with most water
+// You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+// Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+// Return the maximum amount of water a container can store.
+// Notice that you may not slant the container.
+
+/**
+ * @param {number[]} height
+ * @return {number}
+ */
+var maxArea = function(height) {
+  // O(n) complexity solution because, at most, the method iterates over every element in the array only once (with two pointers).
+  let maxArea = 0;
+  let left = 0;
+  let right = height.length - 1;
+
+  while (left < right) {
+    const area = Math.min(height[left], height[right]) * (right - left);
+    maxArea = Math.max(maxArea, area);
+
+    if (height[left] < height[right]) {
+      left++;
+    } else {
+      right--;
+    }
+  }
+
+  return maxArea;
+};
+
+console.log(maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7])) // 49
