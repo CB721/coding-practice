@@ -141,49 +141,57 @@ function getLineEquation(averages = {}) {
   return equationStr;
 }
 
+function initializeWeights(data) {
+  const weights = {};
+  for (const key in data[0]) {
+    if (key !== 'target') {
+      weights[key] = Math.random() * 2 - 1; // Random between -1 and 1
+    }
+  }
+  weights.bias = Math.random() * 2 - 1;
+  return weights;
+}
+
 function train(data = []) {
   const epochs = 1000;
-  const learningRate = 0.01;
+  const learningRate = 0.1;
+  const regularization = 0.01;
 
-  const averages = getAverages(data);
-  console.log('Original Averages: ', averages);
-  console.log('Original Line Equation: ', getLineEquation(averages));
+  const weights = initializeWeights(data);
+  console.log('Initial Weights: ', weights);
+  console.log('Original Line Equation: ', getLineEquation(weights));
   console.log('-------------------------------');
 
   for (let i = 0; i < epochs; i++) {
     for (const row of data) {
-      // update the averages
-      for (const col in row) {
-        if (row.hasOwnProperty(col) && averages.hasOwnProperty(col)) {
-          const diff = averages[col] - row[col];
-          if (diff > 0) {
-            if (row.target === 1) {
-              averages[col] -= learningRate * diff;
-            }
-          }
-          if (diff < 0) {
-            if (row.target === 0) {
-              averages[col] -= learningRate * diff;
-            }
-          }
+      const prediction = getPredictedValue(weights, row);
+      const error = row.target - prediction;
+
+      // Update weights
+      for (const key in weights) {
+        if (key === 'bias') {
+          weights.bias += learningRate * error;
+        } else {
+          weights[key] += learningRate * (error * row[key] - regularization * weights[key]);
         }
       }
     }
   }
-  console.log('Updated Averages: ', averages);
-  console.log('Updated Line Equation: ', getLineEquation(averages));
+  console.log('Updated weights: ', weights);
+  console.log('Updated Line Equation: ', getLineEquation(weights));
   console.log('-------------------------------');
-  return averages;
+  return weights;
 }
 
-function getPredictedValue(averages = {}, row = {}) {
-  let sum = 0;
-  for (const key in averages) {
-    if (averages.hasOwnProperty(key) && row.hasOwnProperty(key)) {
-      sum +=  row[key] - averages[key];
+
+function getPredictedValue(weights = {}, row = {}) {
+  let sum = weights.bias; // Add bias term
+  for (const key in weights) {
+    if (key !== 'bias' && row.hasOwnProperty(key)) {
+      sum += weights[key] * row[key];
     }
   }
-  return sum;
+  return 1 / (1 + Math.exp(-sum)); // Sigmoid activation
 }
 
 function test(data = [], averages = {}) {
@@ -194,8 +202,8 @@ function test(data = [], averages = {}) {
 
   for (const row of data) {
     const predictedValue = getPredictedValue(averages, row);
-    
-    if (predictedValue > 0) {
+
+    if (predictedValue > 0.5) {
       if (row.target === 1) {
         truePos++;
       } else {
@@ -214,7 +222,7 @@ function test(data = [], averages = {}) {
   const precision = truePos / (truePos + falsePos);
   const recall = truePos / (truePos + falseNeg);
   const f1Score = 2 * (precision * recall) / (precision + recall);
-  const confusionMatrix = [[truePos, falseNeg], [falsePos, trueNeg]];
+  const confusionMatrix = { noHeartDisease: { noHeartDisease: [trueNeg, '️✅'], heartDisease: [falsePos, '❌'] }, heartDisease: { noHeartDisease: [falseNeg, '❌'], heartDisease: [truePos, '️✅'] } };
 
   return {
     accuracy,
@@ -225,14 +233,47 @@ function test(data = [], averages = {}) {
   }
 }
 
+function normalizeData(data) {
+  const features = {};
+  // First pass - get min/max
+  for (const row of data) {
+    for (const key in row) {
+      if (!features[key]) {
+        features[key] = { min: row[key], max: row[key] };
+      } else {
+        features[key].min = Math.min(features[key].min, row[key]);
+        features[key].max = Math.max(features[key].max, row[key]);
+      }
+    }
+  }
+
+  // Second pass - normalize
+  return data.map(row => {
+    const normalized = {};
+    for (const key in row) {
+      if (key === 'target') {
+        normalized[key] = row[key];
+      } else {
+        const range = features[key].max - features[key].min;
+        normalized[key] = range === 0 ? 0 : (row[key] - features[key].min) / range;
+      }
+    }
+    return normalized;
+  });
+}
+
 function process(data = []) {
+  const normalizedData = normalizeData(data);
   const testSize = 0.2;
-  const trainingData = data.slice(0, Math.floor(data.length * (1 - testSize)));
-  const testData = data.slice(Math.floor(data.length * (1 - testSize)));
+  const trainingData = normalizedData.slice(0, Math.floor(normalizedData.length * (1 - testSize)));
+  const testData = normalizedData.slice(Math.floor(normalizedData.length * (1 - testSize)));
 
   const averages = train(trainingData);
 
   const testResults = test(testData, averages);
+  console.log('----- Test Results ----- ');
+  console.table(testResults.confusionMatrix)
+  delete testResults.confusionMatrix
+  console.log(testResults);
   console.log('----------------');
-  console.log('Test Results: ', testResults);
 }
