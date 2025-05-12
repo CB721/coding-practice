@@ -29,8 +29,8 @@ var strStr = function (haystack, needle) {
   return index;
 };
 
-console.log(strStr('sadbutsad', 'sad')) // 0
-console.log(strStr('leetcode', 'leeto')) // -1
-console.log(strStr('cheese asdf hugs dfsdfs', 'f h')) // 10
-console.log(strStr('a', 'a')) // 0
-console.log(strStr('', '')) // -1
+// console.log(strStr('sadbutsad', 'sad')) // 0
+// console.log(strStr('leetcode', 'leeto')) // -1
+// console.log(strStr('cheese asdf hugs dfsdfs', 'f h')) // 10
+// console.log(strStr('a', 'a')) // 0
+// console.log(strStr('', '')) // -1
