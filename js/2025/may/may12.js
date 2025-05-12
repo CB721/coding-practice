@@ -21,20 +21,9 @@ fs.createReadStream('heart.csv')
 
 function getLineEquation(averages = {}) {
   let equationStr = '';
-  const variableLtrs = [];
+
   for (const key in averages) {
-    // look at last letter in variableLtrs
-    // iterate to the next letter
-    // if it is z, then go to aa, and if zz then go to aaa and so on.
-    const lastLetter = variableLtrs[variableLtrs.length - 1];
-    let nextLetter = '';
-    if (lastLetter) {
-      nextLetter = String.fromCharCode(lastLetter.charCodeAt(0) + 1);
-    } else {
-      nextLetter = 'a';
-    }
-    variableLtrs.push(nextLetter);
-    equationStr += `${averages[key]}${nextLetter.toUpperCase()} + `;
+    equationStr += `${averages[key]} * ${key} + `;
   }
   // remove the last +
   equationStr = equationStr.slice(0, -3);
@@ -122,7 +111,7 @@ function test(data = [], averages = {}) {
   const precision = truePos / (truePos + falsePos);
   const recall = truePos / (truePos + falseNeg);
   const f1Score = 2 * (precision * recall) / (precision + recall);
-  const confusionMatrix = { noHeartDisease: { noHeartDisease: [trueNeg, '️✅'], heartDisease: [falsePos, '❌'] }, heartDisease: { noHeartDisease: [falseNeg, '❌'], heartDisease: [truePos, '️✅'] } };
+  const confusionMatrix = [[trueNeg, '️✅', falsePos, '❌'], [falseNeg, '❌', truePos, '️✅']];
 
   return {
     accuracy,
