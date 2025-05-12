@@ -3,13 +3,23 @@ const fs = require('fs');
 const csv = require('csv-parser');
 const results = [];
 
-fs.createReadStream('heart.csv')
+const dataset =
+{
+  heartDisease: {
+    filename: 'heart.csv',
+    y: 'target',
+  },
+}
+
+const currDataset = dataset.heartDisease;
+
+fs.createReadStream(currDataset.filename)
   .pipe(csv())
   .on('data', (data) => {
     // convert all values to numbers
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
-        data[key] = parseFloat(data[key]);
+        data[key] = parseFloat(data[key].trim());
       }
     }
     // push the data to results
@@ -33,7 +43,7 @@ function getLineEquation(averages = {}) {
 function initializeWeights(data) {
   const weights = {};
   for (const key in data[0]) {
-    if (key !== 'target') {
+    if (key !== currDataset.y) {
       weights[key] = Math.random() * 2 - 1; // Random between -1 and 1
     }
   }
@@ -54,7 +64,7 @@ function train(data = []) {
   for (let i = 0; i < epochs; i++) {
     for (const row of data) {
       const prediction = getPredictedValue(weights, row);
-      const error = row.target - prediction;
+      const error = row[currDataset.y] - prediction;
 
       // Update weights
       for (const key in weights) {
@@ -140,7 +150,7 @@ function normalizeData(data) {
   return data.map(row => {
     const normalized = {};
     for (const key in row) {
-      if (key === 'target') {
+      if (key === currDataset.y) {
         normalized[key] = row[key];
       } else {
         const range = features[key].max - features[key].min;
