@@ -121,7 +121,7 @@ function test(data = [], averages = {}) {
   const precision = truePos / (truePos + falsePos);
   const recall = truePos / (truePos + falseNeg);
   const f1Score = 2 * (precision * recall) / (precision + recall);
-  const confusionMatrix = [[trueNeg, '️✅', falsePos, '❌'], [falseNeg, '❌', truePos, '️✅']];
+  const confusionMatrix = [[`${trueNeg} ✅`, `${falsePos} ❌`], [`${falseNeg} ❌`, `${truePos} ✅`]];
 
   return {
     accuracy,
