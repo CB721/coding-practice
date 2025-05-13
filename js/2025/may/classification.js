@@ -120,6 +120,7 @@ function test(data = [], averages = {}) {
   const accuracy = (truePos + trueNeg) / (truePos + trueNeg + falsePos + falseNeg);
   const precision = truePos / (truePos + falsePos);
   const recall = truePos / (truePos + falseNeg);
+  const specificity = trueNeg / (trueNeg + falsePos);
   const f1Score = 2 * (precision * recall) / (precision + recall);
   const confusionMatrix = [[`${trueNeg} ✅`, `${falsePos} ❌`], [`${falseNeg} ❌`, `${truePos} ✅`]];
 
@@ -127,6 +128,7 @@ function test(data = [], averages = {}) {
     accuracy,
     precision,
     recall,
+    specificity,
     f1Score,
     confusionMatrix,
   }
