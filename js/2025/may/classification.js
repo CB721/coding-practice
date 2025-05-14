@@ -8,6 +8,7 @@ const dataset =
   heartDisease: {
     filename: 'heart.csv',
     y: 'target',
+    threshold: 0.5,
   },
 }
 
@@ -83,26 +84,26 @@ function train(data = []) {
 }
 
 
-function getPredictedValue(weights = {}, row = {}) {
-  let sum = weights.bias; // Add bias term
-  for (const key in weights) {
-    if (key !== 'bias' && row.hasOwnProperty(key)) {
-      sum += weights[key] * row[key];
+function getPredictedValue(model = {}, row = {}) {
+  let sum = model.bias; // Add bias term
+  for (const key in model) {
+    if (row.hasOwnProperty(key)) {
+      sum += model[key] * row[key];
     }
   }
   return 1 / (1 + Math.exp(-sum)); // Sigmoid activation
 }
 
-function test(data = [], averages = {}) {
+function test(data = [], model = {}) {
   let truePos = 0;
   let trueNeg = 0;
   let falsePos = 0;
   let falseNeg = 0;
 
   for (const row of data) {
-    const predictedValue = getPredictedValue(averages, row);
+    const predictedValue = getPredictedValue(model, row);
 
-    if (predictedValue > 0.5) {
+    if (predictedValue > currDataset.threshold) {
       if (row.target === 1) {
         truePos++;
       } else {
@@ -116,12 +117,15 @@ function test(data = [], averages = {}) {
       }
     }
   }
-
-  const accuracy = (truePos + trueNeg) / (truePos + trueNeg + falsePos + falseNeg);
-  const precision = truePos / (truePos + falsePos);
-  const recall = truePos / (truePos + falseNeg);
-  const specificity = trueNeg / (trueNeg + falsePos);
-  const f1Score = 2 * (precision * recall) / (precision + recall);
+  // truePos = 16
+  // trueNeg = 144
+  // falsePos = 10
+  // falseNeg = 30
+  const accuracy = (truePos + trueNeg) / (truePos + trueNeg + falsePos + falseNeg); //  // 0.8
+  const precision = truePos / (truePos + falsePos); // 0.615
+  const recall = truePos / (truePos + falseNeg); // 0.348
+  const specificity = trueNeg / (trueNeg + falsePos); // 0.935
+  const f1Score = 2 * (precision * recall) / (precision + recall); // 0.444
   const confusionMatrix = [[`${trueNeg} ✅`, `${falsePos} ❌`], [`${falseNeg} ❌`, `${truePos} ✅`]];
 
   return {
@@ -166,12 +170,17 @@ function normalizeData(data) {
 function process(data = []) {
   const normalizedData = normalizeData(data);
   const testSize = 0.2;
-  const trainingData = normalizedData.slice(0, Math.floor(normalizedData.length * (1 - testSize)));
-  const testData = normalizedData.slice(Math.floor(normalizedData.length * (1 - testSize)));
+  
+  const testData = [];
+  while (normalizedData.length > 0 && testData.length < Math.floor(normalizedData.length * testSize)) {
+    const randomIndex = Math.floor(Math.random() * normalizedData.length);
+    testData.push(normalizedData.splice(randomIndex, 1)[0]);
+  }
+  const trainingData = normalizedData;
 
-  const averages = train(trainingData);
+  const model = train(trainingData);
 
-  const testResults = test(testData, averages);
+  const testResults = test(testData, model);
   console.log('----- Test Results ----- ');
   console.table(testResults.confusionMatrix)
   delete testResults.confusionMatrix
