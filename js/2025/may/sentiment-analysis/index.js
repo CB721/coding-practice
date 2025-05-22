@@ -1,21 +1,28 @@
 const fs = require('fs');
 const csv = require('csv-parser');
 
-const data = [];
+function readCSV(filePath) {
+  return new Promise((resolve, reject) => {
+    const data = [];
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('data', (row) => data.push(initialDataProcessing(row)))
+      .on('end', () => resolve(data))
+      .on('error', reject);
+  });
+}
 
-fs.createReadStream('./data/twitter_training.csv')
-  .pipe(csv())
-  .on('data', (row) => {
-    data.push({
-      ...row,
-      words: processText(row.text),
-      sentiment: row.sentiment.toLowerCase(),
-    });
-  }
-  )
-  .on('end', () => {
-    console.log('CSV file successfully processed');
-    const { model, totals, priors } = train(data);
+const files = [
+  './data/twitter_training.csv',
+  './data/sentimentdataset.csv',
+];
+
+Promise.all(files.map(file => readCSV(file)))
+  .then(results => {
+    const combinedData = results.flat();
+    console.log('All CSV files successfully processed');
+    const { model, totals, priors } = train(combinedData);
+
     const inputs = [
       'I love this product!',
       'This is the worst experience ever.',
@@ -33,20 +40,96 @@ fs.createReadStream('./data/twitter_training.csv')
     ]
 
     inputs.forEach((input) => {
+      console.log('----------')
       console.log('Input: ', input)
       console.log(predictNaiveBayes(model, totals, priors, input))
-      console.log('----------')
     })
+  })
+  .catch(error => console.error('Error processing files:', error));
+
+
+function initialDataProcessing(row) {
+  const keys = Object.keys(row);
+  const lowercaseRow = {};
+  keys.forEach((key) => {
+    const newKey = key === 'Time of Tweet' ? 'time' : key.toLowerCase();
+    if (key === 'Hour') {
+      const time = parseInt(row[key])
+      let timeOfDay = 'morning';
+      if (time > 10 && time < 7) {
+        timeOfDay = 'noon'
+      } else if (time > 6 && time < 2) {
+        timeOfDay = 'night'
+      }
+      lowercaseRow['time'] = timeOfDay;
+    } else {
+      lowercaseRow[newKey] = row[key];
+    }
+  });
+
+  return {
+    text: lowercaseRow.text,
+    words: processText(lowercaseRow.text),
+    sentiment: processSentiment(lowercaseRow.sentiment.toLowerCase().trim()),
+    // sentiment: lowercaseRow.sentiment.toLowerCase().trim(),
+    platform: lowercaseRow.platform?.toLowerCase() || 'twitter',
+    time: lowercaseRow.time,
+    month: lowercaseRow.month,
   }
-  )
-  .on('error', (error) => {
-    console.error('Error reading CSV file:', error);
-  }
-  );
+}
 
 function processText(text) {
-  // Basic text processing: convert to lowercase, remove punctuation and split into individual words
-  return text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(' ')
+  if (!text) return [];
+
+  const matches = text
+    .toLowerCase()
+    .match(/[a-z0-9]+|[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]/g);
+
+  return matches ? matches.filter(Boolean) : [];
+}
+
+function processSentiment(sentiment = '') {
+  const sentiments = {
+    positive: [
+      'positive', 'happiness', 'joy', 'love', 'amusement', 'enjoyment',
+      'admiration', 'affection', 'awe', 'excitement', 'kind', 'pride',
+      'elation', 'euphoria', 'contentment', 'serenity', 'gratitude',
+      'hope', 'empowerment', 'compassion', 'tenderness', 'enthusiasm',
+      'fulfillment', 'determination', 'zest', 'hopeful', 'proud',
+      'grateful', 'empathetic', 'compassionate', 'playful', 'confident',
+      'thrill', 'overjoyed', 'inspiration', 'motivation', 'satisfaction',
+      'blessed', 'appreciation', 'confidence', 'accomplishment', 'optimism',
+      'enchantment', 'playfuljoy', 'harmony', 'wonder', 'adventure',
+      'festivejoy', 'freedom', 'resilience', 'success', 'triumph',
+      'heartwarming', 'breakthrough', 'joy in baking', 'happy', 'good',
+      'great', 'like'
+    ],
+    negative: [
+      'negative', 'anger', 'fear', 'sadness', 'disgust', 'disappointed',
+      'bitter', 'shame', 'despair', 'grief', 'loneliness', 'jealousy',
+      'resentment', 'frustration', 'anxiety', 'intimidation', 'helplessness',
+      'envy', 'regret', 'melancholy', 'bitterness', 'fearful', 'apprehensive',
+      'overwhelmed', 'jealous', 'devastated', 'frustrated', 'envious',
+      'heartbreak', 'betrayal', 'suffering', 'isolation', 'disappointment',
+      'exhaustion', 'sorrow', 'darkness', 'desperation', 'desolation',
+      'loss', 'heartache', 'obstacle', 'pressure', 'miscalculation',
+      'embarrassed', 'sad', 'hate', 'bad', 'dislike', 'spam'
+    ],
+    neutral: [
+      'neutral', 'calmness', 'confusion', 'curiosity', 'indifference',
+      'numbness', 'nostalgia', 'ambivalence', 'contemplation', 'reflection',
+      'pensive', 'solitude', 'emotion', 'suspense', 'challenge', 'okay',
+      'fine', 'relief', 'mischievous', 'irrelevant', 'off-topic'
+    ],
+  };
+
+  for (const [key, values] of Object.entries(sentiments)) {
+    if (values.includes(sentiment)) {
+      return key;
+    }
+  }
+
+  return 'neutral'; // Default to neutral if no match found
 }
 
 function getTotalBySentiment(dataset, sentiment = 'positive') {
@@ -58,20 +141,17 @@ function train(dataset) {
   const positiveTotal = getTotalBySentiment(dataset, 'positive');
   const negativeTotal = getTotalBySentiment(dataset, 'negative');
   const neutralTotal = getTotalBySentiment(dataset, 'neutral');
-  const irrelevantTotal = getTotalBySentiment(dataset, 'irrelevant');
 
   const priors = {
     positive: positiveTotal / total,
     negative: negativeTotal / total,
     neutral: neutralTotal / total,
-    irrelevant: irrelevantTotal / total,
   }
 
   const totals = {
     positive: positiveTotal,
     negative: negativeTotal,
     neutral: neutralTotal,
-    irrelevant: irrelevantTotal,
   }
 
   const model = {}
@@ -79,7 +159,7 @@ function train(dataset) {
   dataset.forEach((item) => {
     item.words.forEach((word) => {
       if (!model[word]) {
-        model[word] = { positive: 0, negative: 0, neutral: 0, irrelevant: 0 };
+        model[word] = { positive: 0, negative: 0, neutral: 0 };
       }
       model[word][item.sentiment] += 1;
     });
@@ -94,31 +174,32 @@ function train(dataset) {
 
 function predictNaiveBayes(model, totals, priors, input = '') {
   const words = processText(input);
+  // console.log('Words:', words);
 
   let positive = Math.log(priors.positive);
   let negative = Math.log(priors.negative);
   let neutral = Math.log(priors.neutral);
-  let irrelevant = Math.log(priors.irrelevant);
 
   for (const word of words) {
     if (model[word]) {
       positive += Math.log(model[word].positive / totals.positive);
       negative += Math.log(model[word].negative / totals.negative);
       neutral += Math.log(model[word].neutral / totals.neutral);
-      irrelevant += Math.log(model[word].irrelevant / totals.irrelevant);
     }
   }
+
+  // console.log('Positive:', positive);
+  // console.log('Negative:', negative);
+  // console.log('Neutral:', neutral);
 
   const positiveProb = Math.exp(positive);
   const negativeProb = Math.exp(negative);
   const neutralProb = Math.exp(neutral);
-  const irrelevantProb = Math.exp(irrelevant);
-  const totalProb = positiveProb + negativeProb + neutralProb + irrelevantProb;
+  const totalProb = positiveProb + negativeProb + neutralProb ;
 
   return {
     positive: positiveProb / totalProb,
     negative: negativeProb / totalProb,
     neutral: neutralProb / totalProb,
-    irrelevant: irrelevantProb / totalProb,
   }
 }
